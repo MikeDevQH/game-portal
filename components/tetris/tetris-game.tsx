@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { motion, AnimatePresence } from "framer-motion"
-import { Music, ArrowDown, ArrowLeft, ArrowRight, ArrowUp } from "lucide-react"
+import { Music, ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Gamepad2 } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 
 const TETROMINOS = {
@@ -56,6 +56,7 @@ const BOARD_WIDTH = 10
 const BOARD_HEIGHT = 20
 const INITIAL_DROP_TIME = 800
 const SPEED_INCREASE_FACTOR = 0.95
+const HIGH_SCORE_THRESHOLD = 1000
 
 const createEmptyBoard = () => Array.from({ length: BOARD_HEIGHT }, () => Array(BOARD_WIDTH).fill(0))
 
@@ -74,6 +75,7 @@ export default function TetrisGame() {
   const [level, setLevel] = useState(1)
   const [isMusicPlaying, setIsMusicPlaying] = useState(false)
   const [completedRows, setCompletedRows] = useState([])
+  const [showVictoryModal, setShowVictoryModal] = useState(false)
   const audioRef = useRef(null)
   const dropInterval = useRef(null)
 
@@ -202,6 +204,11 @@ export default function TetrisGame() {
             setLevel((prev) => prev + 1)
             setDropTime((prev) => prev * SPEED_INCREASE_FACTOR)
           }
+
+          // Check if player reached high score
+          if (score < HIGH_SCORE_THRESHOLD && newScore >= HIGH_SCORE_THRESHOLD) {
+            setShowVictoryModal(true)
+          }
         }, 500)
       }
     },
@@ -278,6 +285,7 @@ export default function TetrisGame() {
     setDropTime(INITIAL_DROP_TIME)
     setLevel(1)
     setCompletedRows([])
+    setShowVictoryModal(false)
     clearInterval(dropInterval.current)
   }
 
@@ -297,12 +305,12 @@ export default function TetrisGame() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[80vh]">
-      <h1 className="text-4xl font-bold mb-8 bg-gradient-to-r from-blue-300 via-cyan-300 to-sky-300 text-transparent bg-clip-text tracking-wider">
+    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-80px)]">
+      <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-blue-300 via-cyan-300 to-sky-300 text-transparent bg-clip-text tracking-wider">
         TETRIS
       </h1>
 
-      <div className="flex flex-col md:flex-row gap-8 items-center">
+      <div className="flex flex-col md:flex-row gap-6 items-center mb-6">
         <Card className="bg-slate-900/40 border-blue-500/30 p-4 rounded-lg shadow-lg backdrop-blur-sm">
           <CardContent className="p-0">
             <div
@@ -334,8 +342,8 @@ export default function TetrisGame() {
           </CardContent>
         </Card>
 
-        <div className="flex flex-col gap-6">
-          <div className="bg-slate-900/40 border border-blue-500/30 rounded-lg p-6 space-y-4 backdrop-blur-sm">
+        <div className="flex flex-col gap-4">
+          <div className="bg-slate-900/40 border border-blue-500/30 rounded-lg p-4 backdrop-blur-sm">
             <div className="text-xl font-bold text-blue-200 tracking-wide">SCORE: {score}</div>
             <div className="text-lg text-blue-300 tracking-wide">LEVEL: {level}</div>
 
@@ -359,8 +367,8 @@ export default function TetrisGame() {
             </div>
           </div>
 
-          <div className="bg-slate-900/40 border border-blue-500/30 rounded-lg p-6 backdrop-blur-sm">
-            <h3 className="text-lg font-medium text-blue-200 mb-4 tracking-wider">CONTROLS</h3>
+          <div className="bg-slate-900/40 border border-blue-500/30 rounded-lg p-4 backdrop-blur-sm">
+            <h3 className="text-lg font-medium text-blue-200 mb-3 tracking-wider">CONTROLS</h3>
             <div className="grid grid-cols-3 gap-2 text-center">
               <div></div>
               <Button variant="ghost" size="icon" className="bg-slate-800/50 text-blue-300">
@@ -377,7 +385,7 @@ export default function TetrisGame() {
                 <ArrowRight className="h-5 w-5" />
               </Button>
             </div>
-            <div className="mt-4 text-sm text-blue-300/70">
+            <div className="mt-3 text-sm text-blue-300/70">
               <p>ROTATE: UP ARROW</p>
               <p>MOVE: LEFT/RIGHT ARROWS</p>
               <p>SPEED UP: DOWN ARROW</p>
