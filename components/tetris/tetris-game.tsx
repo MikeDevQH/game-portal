@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { motion, AnimatePresence } from "framer-motion"
 import { Music, ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Gamepad2 } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
+import VictoryModal from "@/components/victory-modal"
 
 const TETROMINOS = {
   I: { shape: [[1, 1, 1, 1]], color: "cyan-500" },
@@ -305,7 +306,7 @@ export default function TetrisGame() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-80px)]">
+    <div className="flex flex-col items-center justify-center">
       <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-blue-300 via-cyan-300 to-sky-300 text-transparent bg-clip-text tracking-wider">
         TETRIS
       </h1>
@@ -397,6 +398,15 @@ export default function TetrisGame() {
       <audio
         ref={audioRef}
         src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Tetris-kxnh5j7hpNEcFspAndlU2huV5n6dvk.mp3"
+      />
+
+      <VictoryModal
+        isOpen={showVictoryModal}
+        onClose={() => setShowVictoryModal(false)}
+        onPlayAgain={resetGame}
+        title="HIGH SCORE!"
+        message="Congratulations! You've reached 1000 points. You're a Tetris master!"
+        icon={<Gamepad2 className="h-24 w-24 text-sky-400 drop-shadow-glow-blue" />}
       />
     </div>
   )

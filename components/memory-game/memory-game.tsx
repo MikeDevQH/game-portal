@@ -106,7 +106,7 @@ export default function MemoryGame() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-80px)]">
+    <div className="flex flex-col items-center justify-center">
       <div className="text-center mb-6">
         <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-300 via-cyan-300 to-sky-300 text-transparent bg-clip-text tracking-wider">
           MEMORY MATCH

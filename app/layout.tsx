@@ -11,7 +11,6 @@ const orbitron = Orbitron({ subsets: ["latin"] })
 export const metadata = {
   title: "Game Portal",
   description: "Play classic games reimagined with modern design",
-    generator: 'v0.dev'
 }
 
 export default function RootLayout({
@@ -21,7 +20,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn(orbitron.className, "min-h-screen antialiased")}>
+      <body className={cn(orbitron.className, "h-screen antialiased overflow-hidden")}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           <div className="animated-background">
             <div className="stars"></div>
@@ -34,7 +33,7 @@ export default function RootLayout({
             </div>
           </div>
           <Header />
-          <main className="pt-12 relative z-10">{children}</main>
+          <main className="pt-12 relative z-10 h-[calc(100vh-48px)]">{children}</main>
           <Toaster position="top-center" />
         </ThemeProvider>
       </body>
@@ -42,6 +41,3 @@ export default function RootLayout({
   )
 }
 
-
-
-import './globals.css'

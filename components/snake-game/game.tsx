@@ -168,7 +168,7 @@ export default function SnakeGame() {
   }, [moveSnake, gameStarted, gameOver, speed, isPaused])
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-80px)]">
+    <div className="flex flex-col items-center justify-center">
       <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-blue-300 via-cyan-300 to-sky-300 text-transparent bg-clip-text tracking-wider">
         SNAKE GAME
       </h1>
