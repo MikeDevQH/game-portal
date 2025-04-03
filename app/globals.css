@@ -256,6 +256,11 @@
 }
 
 .bg-sky-500 {
+  background-color: rgb(14, 165, 130, 246);
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+}
+
+.bg-sky-500 {
   background-color: rgb(14, 165, 233);
   box-shadow: 0 0 10px rgba(14, 165, 233, 0.5);
 }
@@ -291,5 +296,10 @@
 
 .drop-shadow-glow-yellow {
   filter: drop-shadow(0 0 10px rgba(250, 204, 21, 0.7));
+}
+
+/* Snake Game Styles */
+.drop-shadow-glow-red {
+  filter: drop-shadow(0 0 10px rgba(239, 68, 68, 0.7));
 }
 
