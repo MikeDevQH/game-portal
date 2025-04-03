@@ -1,14 +1,6 @@
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Gamepad2, Brain, Sparkles, Hash, Apple } from "lucide-react";
+import GameCard from "@/components/game-card";
+
 
 export default function HomePage() {
   return (
@@ -28,101 +20,90 @@ export default function HomePage() {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
-          <Card className="bg-slate-900/40 border-blue-500/30 hover:border-blue-400/60 transition-all duration-300 hover:shadow-lg hover:shadow-blue-900/30 group overflow-hidden backdrop-blur-sm">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-2xl text-blue-200 group-hover:text-blue-100">
-                MEMORY MATCH
-              </CardTitle>
-              <CardDescription className="text-blue-300/70">
-                Test your memory by finding matching pairs
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="pt-4 pb-6">
-              <div className="h-48 bg-gradient-to-br from-blue-950/50 to-sky-950/50 rounded-md flex items-center justify-center overflow-hidden relative group-hover:from-blue-900/50 group-hover:to-sky-900/50 transition-all duration-500">
-                <div className="absolute inset-0 opacity-20 bg-grid-pattern"></div>
-                <Brain className="h-20 w-20 text-blue-400 group-hover:scale-110 transition-transform duration-300 relative z-10" />
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Link href="/memory-game" className="w-full">
-                <Button className="w-full bg-blue-800/80 hover:bg-blue-700 text-blue-100 border border-blue-500/30">
-                  PLAY NOW
-                </Button>
-              </Link>
-            </CardFooter>
-          </Card>
+      
+        <GameCard
+          title="MEMORY MATCH"
+          titleColor="text-blue-200"
+          hoverTitle="group-hover:text-blue-100"
+          description="Test your memory by finding matching pairs"
+          descriptionColor="text-blue-300/70"
+          icon={Brain}
+          iconColor="text-blue-400"
+          link="/memory-game"
+          borderColor="border-blue-500/30"
+          hoverBorderColor="hover:border-blue-400/60"
+          textColor="text-blue-200"
+          bgGradient="from-blue-950/50 to-sky-950/50"
+          hoverShadow="hover:shadow-blue-900/30"
+          hoverBgGradient="group-hover:from-blue-900/50 group-hover:to-sky-900/50"
+          bgButton="bg-blue-800/80 hover:bg-blue-700 text-blue-100 border border-blue-500/30"
+          hoverBgButton="hover:bg-blue-700"
+          textButton="text-blue-100"
+          borderButton="border-blue-500/30"
+        />
 
-          <Card className="bg-slate-900/40 border-sky-500/30 hover:border-sky-400/60 transition-all duration-300 hover:shadow-lg hover:shadow-sky-900/30 group overflow-hidden backdrop-blur-sm">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-2xl text-sky-200 group-hover:text-sky-100">
-                TETRIS
-              </CardTitle>
-              <CardDescription className="text-sky-300/70">
-                The classic block-stacking puzzle game
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="pt-4 pb-6">
-              <div className="h-48 bg-gradient-to-br from-sky-950/50 to-slate-950/50 rounded-md flex items-center justify-center overflow-hidden relative group-hover:from-sky-900/50 group-hover:to-slate-900/50 transition-all duration-500">
-                <div className="absolute inset-0 opacity-20 bg-grid-pattern"></div>
-                <Gamepad2 className="h-20 w-20 text-sky-400 group-hover:scale-110 transition-transform duration-300 relative z-10" />
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Link href="/tetris" className="w-full">
-                <Button className="w-full bg-sky-800/80 hover:bg-sky-700 text-sky-100 border border-sky-500/30">
-                  PLAY NOW
-                </Button>
-              </Link>
-            </CardFooter>
-          </Card>
+        <GameCard
+          title="TETRIS"
+          titleColor="text-sky-200"
+          hoverTitle="group-hover:text-sky-100"
+          description="The classic block-stacking puzzle game"
+          descriptionColor="text-sky-300/70"
+          icon={Gamepad2}
+          iconColor="text-sky-400"
+          link="/tetris"
+          borderColor="border-sky-500/30"
+          hoverBorderColor="hover:border-sky-400/60"
+          textColor="text-sky-200"
+          bgGradient="from-sky-950/50 to-slate-950/50"
+          hoverShadow="hover:shadow-sky-900/30"
+          hoverBgGradient="group-hover:from-sky-900/50 group-hover:to-slate-900/50"
+          bgButton="bg-sky-800/80 hover:bg-sky-700 text-sky-100 border border-sky-500/30"
+          hoverBgButton="hover:bg-sky-700"
+          textButton="text-sky-100"
+          borderButton="border-sky-500/30"
+        />
 
-          <Card className="bg-slate-900/40 border-cyan-500/30 hover:border-cyan-400/60 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-900/30 group overflow-hidden backdrop-blur-sm">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-2xl text-cyan-200 group-hover:text-cyan-100">
-                TIC-TAC-TOE
-              </CardTitle>
-              <CardDescription className="text-cyan-300/70">
-                Classic strategy game against AI opponent
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="pt-4 pb-6">
-              <div className="h-48 bg-gradient-to-br from-cyan-950/50 to-slate-950/50 rounded-md flex items-center justify-center overflow-hidden relative group-hover:from-cyan-900/50 group-hover:to-slate-900/50 transition-all duration-500">
-                <div className="absolute inset-0 opacity-20 bg-grid-pattern"></div>
-                <Hash className="h-20 w-20 text-cyan-400 group-hover:scale-110 transition-transform duration-300 relative z-10" />
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Link href="/tic-tac-toe" className="w-full">
-                <Button className="w-full bg-cyan-800/80 hover:bg-cyan-700 text-cyan-100 border border-cyan-500/30">
-                  PLAY NOW
-                </Button>
-              </Link>
-            </CardFooter>
-          </Card>
-
-          <Card className="bg-slate-900/40 border-blue-500/30 hover:border-blue-400/60 transition-all duration-300 hover:shadow-lg hover:shadow-blue-900/30 group overflow-hidden backdrop-blur-sm">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-2xl text-blue-200 group-hover:text-blue-100">
-                SNAKE
-              </CardTitle>
-              <CardDescription className="text-blue-300/70">
-                Guide the snake to eat apples and grow longer
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="pt-4 pb-6">
-              <div className="h-48 bg-gradient-to-br from-blue-950/50 to-green-950/50 rounded-md flex items-center justify-center overflow-hidden relative group-hover:from-blue-900/50 group-hover:to-green-900/50 transition-all duration-500">
-                <div className="absolute inset-0 opacity-20 bg-grid-pattern"></div>
-                <Apple className="h-20 w-20 text-blue-400 group-hover:scale-110 transition-transform duration-300 relative z-10" />
-              </div>
-            </CardContent>
-            <CardFooter>
-              <Link href="/snake" className="w-full">
-                <Button className="w-full bg-blue-800/80 hover:bg-blue-700 text-blue-100 border border-blue-500/30">
-                  PLAY NOW
-                </Button>
-              </Link>
-            </CardFooter>
-          </Card>
+        <GameCard
+          title="TIC-TAC-TOE"
+          titleColor="text-cyan-200"
+          hoverTitle="group-hover:text-cyan-100"
+          description="Classic strategy game against AI opponent"
+          descriptionColor="text-cyan-300/70"
+          icon={Hash}
+          iconColor="text-cyan-400"
+          link="/tic-tac-toe"
+          borderColor="border-cyan-500/30"
+          hoverBorderColor="hover:border-cyan-400/60"
+          textColor="text-cyan-200"
+          bgGradient="from-cyan-950/50 to-slate-950/50"
+          hoverShadow="hover:shadow-cyan-900/30"
+          hoverBgGradient="group-hover:from-cyan-900/50 group-hover:to-slate-900/50"
+          bgButton="bg-cyan-800/80 hover:bg-cyan-700 text-cyan-100 border border-cyan-500/30"
+          hoverBgButton="hover:bg-cyan-700"
+          textButton="text-cyan-100"
+          borderButton="border-cyan-500/30"
+        />
+        
+        <GameCard
+          title="SNAKE"
+          titleColor="text-blue-200"
+          hoverTitle="group-hover:text-blue-100"
+          description="Guide the snake to eat apples and grow longer"
+          descriptionColor="text-blue-300/70"
+          icon={Apple}
+          iconColor="text-blue-400"
+          link="/snake"
+          borderColor="border-blue-500/30"
+          hoverBorderColor="hover:border-blue-400/60"
+          textColor="text-blue-200"
+          bgGradient="from-blue-950/50 to-slate-950/50"
+          hoverShadow="hover:shadow-blue-900/30"
+          hoverBgGradient="group-hover:from-blue-900/50 group-hover:to-slate-900/50"
+          bgButton="bg-blue-800/80 hover:bg-blue-700 text-blue-100 border border-blue-500/30"
+          hoverBgButton="hover:bg-blue-700"
+          textButton="text-blue-100"
+          borderButton="border-blue-500/30"
+        />
         </div>
       </div>
     </div>
