@@ -39,6 +39,26 @@ export default function HomePage() {
               </Link>
             </CardFooter>
           </Card>
+
+          <Card className="bg-slate-900/40 border-sky-500/30 hover:border-sky-400/60 transition-all duration-300 hover:shadow-lg hover:shadow-sky-900/30 group overflow-hidden backdrop-blur-sm">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-2xl text-sky-200 group-hover:text-sky-100">TETRIS</CardTitle>
+              <CardDescription className="text-sky-300/70">The classic block-stacking puzzle game</CardDescription>
+            </CardHeader>
+            <CardContent className="pt-4 pb-6">
+              <div className="h-48 bg-gradient-to-br from-sky-950/50 to-slate-950/50 rounded-md flex items-center justify-center overflow-hidden relative group-hover:from-sky-900/50 group-hover:to-slate-900/50 transition-all duration-500">
+                <div className="absolute inset-0 opacity-20 bg-grid-pattern"></div>
+                <Gamepad2 className="h-20 w-20 text-sky-400 group-hover:scale-110 transition-transform duration-300 relative z-10" />
+              </div>
+            </CardContent>
+            <CardFooter>
+              <Link href="/tetris" className="w-full">
+                <Button className="w-full bg-sky-800/80 hover:bg-sky-700 text-sky-100 border border-sky-500/30">
+                  PLAY NOW
+                </Button>
+              </Link>
+            </CardFooter>
+          </Card>
         </div>
       </div>
     </div>
