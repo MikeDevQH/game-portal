@@ -5,7 +5,7 @@ import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
 import { Anchor, Rocket, Zap, Diamond, Crown, Trophy, Plane, Ship, Brain, type LucideIcon } from "lucide-react"
-import VictoryModal from "@/components/memory-game/victory-modal"
+import VictoryModal from "@/components/victory-modal"
 
 type MemoryCard = {
   id: number

@@ -7,7 +7,7 @@ import TypewriterText from "./typewriter-text"
 import { calculateWinner, getAIMove } from "@/utils/game-logic"
 import { Button } from "@/components/ui/button"
 import { motion } from "framer-motion"
-import VictoryModal from "@/components/tic-tac-toe/victory-modal"
+import VictoryModal from "@/components/victory-modal"
 import { Trophy } from "lucide-react"
 
 export default function Game() {
