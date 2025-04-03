@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Gamepad2, Brain, Sparkles } from "lucide-react"
+import { Gamepad2, Brain, Sparkles, Hash } from "lucide-react"
 
 export default function HomePage() {
   return (
@@ -19,7 +19,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           <Card className="bg-slate-900/40 border-blue-500/30 hover:border-blue-400/60 transition-all duration-300 hover:shadow-lg hover:shadow-blue-900/30 group overflow-hidden backdrop-blur-sm">
             <CardHeader className="pb-2">
               <CardTitle className="text-2xl text-blue-200 group-hover:text-blue-100">MEMORY MATCH</CardTitle>
@@ -54,6 +54,26 @@ export default function HomePage() {
             <CardFooter>
               <Link href="/tetris" className="w-full">
                 <Button className="w-full bg-sky-800/80 hover:bg-sky-700 text-sky-100 border border-sky-500/30">
+                  PLAY NOW
+                </Button>
+              </Link>
+            </CardFooter>
+          </Card>
+
+          <Card className="bg-slate-900/40 border-cyan-500/30 hover:border-cyan-400/60 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-900/30 group overflow-hidden backdrop-blur-sm">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-2xl text-cyan-200 group-hover:text-cyan-100">TIC-TAC-TOE</CardTitle>
+              <CardDescription className="text-cyan-300/70">Classic strategy game against AI opponent</CardDescription>
+            </CardHeader>
+            <CardContent className="pt-4 pb-6">
+              <div className="h-48 bg-gradient-to-br from-cyan-950/50 to-slate-950/50 rounded-md flex items-center justify-center overflow-hidden relative group-hover:from-cyan-900/50 group-hover:to-slate-900/50 transition-all duration-500">
+                <div className="absolute inset-0 opacity-20 bg-grid-pattern"></div>
+                <Hash className="h-20 w-20 text-cyan-400 group-hover:scale-110 transition-transform duration-300 relative z-10" />
+              </div>
+            </CardContent>
+            <CardFooter>
+              <Link href="/tic-tac-toe" className="w-full">
+                <Button className="w-full bg-cyan-800/80 hover:bg-cyan-700 text-cyan-100 border border-cyan-500/30">
                   PLAY NOW
                 </Button>
               </Link>
