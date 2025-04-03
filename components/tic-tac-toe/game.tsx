@@ -2,16 +2,19 @@
 
 import { useState, useEffect } from "react"
 import Board from "./board"
-import WinningLine from "@/components/tic-tac-toe/winning-line"
-import TypewriterText from "@/components/tic-tac-toe/typewriter-text"
+import WinningLine from "./winning-line"
+import TypewriterText from "./typewriter-text"
 import { calculateWinner, getAIMove } from "@/utils/game-logic"
 import { Button } from "@/components/ui/button"
 import { motion } from "framer-motion"
+import VictoryModal from "@/components/tic-tac-toe/victory-modal"
+import { Trophy } from "lucide-react"
 
 export default function Game() {
   const [board, setBoard] = useState(Array(9).fill(null))
   const [isXNext, setIsXNext] = useState(true)
   const [showWinningLine, setShowWinningLine] = useState(false)
+  const [showVictoryModal, setShowVictoryModal] = useState(false)
 
   const winInfo = calculateWinner(board)
   const winner = winInfo ? winInfo.winner : null
@@ -35,6 +38,15 @@ export default function Game() {
     }
   }, [winningLine])
 
+  useEffect(() => {
+    if (winner === "x") {
+      const timer = setTimeout(() => {
+        setShowVictoryModal(true)
+      }, 800)
+      return () => clearTimeout(timer)
+    }
+  }, [winner])
+
   const handleMove = (i: number) => {
     if (winner || board[i]) return
 
@@ -49,6 +61,7 @@ export default function Game() {
     setBoard(Array(9).fill(null))
     setIsXNext(true)
     setShowWinningLine(false)
+    setShowVictoryModal(false)
   }
 
   let status
@@ -63,8 +76,8 @@ export default function Game() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[80vh]">
-      <h1 className="text-4xl font-bold mb-8 bg-gradient-to-r from-blue-300 via-cyan-300 to-sky-300 text-transparent bg-clip-text tracking-wider">
+    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-80px)]">
+      <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-blue-300 via-cyan-300 to-sky-300 text-transparent bg-clip-text tracking-wider">
         TIC-TAC-TOE
       </h1>
 
@@ -72,17 +85,17 @@ export default function Game() {
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
-        className="relative w-72 h-72 bg-blue-950/30 backdrop-blur-sm rounded-lg border border-blue-500/30 p-0 overflow-hidden shadow-xl"
+        className="relative w-72 h-72 bg-blue-950/30 backdrop-blur-sm rounded-lg border border-blue-500/30 p-0 overflow-hidden shadow-xl mb-6"
       >
         <Board squares={board} onClick={isXNext ? handleMove : () => {}} />
         {showWinningLine && winningLine && <WinningLine start={winningLine[0]} end={winningLine[2]} />}
       </motion.div>
 
-      <div className="mt-8 h-16 flex flex-col items-center justify-center">
+      <div className="h-16 flex flex-col items-center justify-center">
         <div className="text-xl font-semibold text-cyan-400 tracking-wider">
           <TypewriterText text={status} />
         </div>
-        {isGameOver && (
+        {isGameOver && !showVictoryModal && (
           <Button
             onClick={resetGame}
             variant="outline"
@@ -92,6 +105,15 @@ export default function Game() {
           </Button>
         )}
       </div>
+
+      <VictoryModal
+        isOpen={showVictoryModal}
+        onClose={() => setShowVictoryModal(false)}
+        onPlayAgain={resetGame}
+        title="VICTORY!"
+        message="Congratulations! You've defeated the AI opponent."
+        icon={<Trophy className="h-24 w-24 text-yellow-400 drop-shadow-glow-yellow" />}
+      />
     </div>
   )
 }

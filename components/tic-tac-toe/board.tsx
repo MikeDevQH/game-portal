@@ -1,6 +1,6 @@
 "use client"
 
-import Square from "@/components/tic-tac-toe/square"
+import Square from "./square"
 
 interface BoardProps {
   squares: (string | null)[]

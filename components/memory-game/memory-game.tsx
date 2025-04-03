@@ -4,8 +4,8 @@ import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
-import { Anchor, Rocket, Zap, Diamond, Crown, Trophy, Plane, Ship, type LucideIcon } from "lucide-react"
-import { toast } from "sonner"
+import { Anchor, Rocket, Zap, Diamond, Crown, Trophy, Plane, Ship, Brain, type LucideIcon } from "lucide-react"
+import VictoryModal from "@/components/memory-game/victory-modal"
 
 type MemoryCard = {
   id: number
@@ -41,6 +41,7 @@ export default function MemoryGame() {
   const [matches, setMatches] = useState(0)
   const [isChecking, setIsChecking] = useState(false)
   const [gameStarted, setGameStarted] = useState(false)
+  const [showVictoryModal, setShowVictoryModal] = useState(false)
 
   useEffect(() => {
     if (!gameStarted) {
@@ -81,9 +82,9 @@ export default function MemoryGame() {
 
           // Check for game completion
           if (matches === cards.length / 2 - 1) {
-            toast("🎮 CONGRATULATIONS! YOU'VE FOUND ALL MATCHES! 🏆", {
-              className: "bg-blue-900 text-blue-100 border-blue-700 font-bold",
-            })
+            setTimeout(() => {
+              setShowVictoryModal(true)
+            }, 500)
           }
         }, 500)
       } else {
@@ -101,20 +102,21 @@ export default function MemoryGame() {
     setFlippedIndexes([])
     setMatches(0)
     setIsChecking(false)
+    setShowVictoryModal(false)
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[80vh] p-4 space-y-8">
-      <div className="text-center space-y-4">
+    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-80px)]">
+      <div className="text-center mb-6">
         <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-300 via-cyan-300 to-sky-300 text-transparent bg-clip-text tracking-wider">
           MEMORY MATCH
         </h1>
-        <p className="text-blue-200 tracking-wide">
+        <p className="text-blue-200 tracking-wide mt-2">
           MATCHES FOUND: {matches} OF {cards.length / 2}
         </p>
       </div>
 
-      <div className="grid grid-cols-4 gap-4 md:gap-6 p-6 rounded-xl bg-blue-950/30 backdrop-blur-sm shadow-xl border border-blue-500/30">
+      <div className="grid grid-cols-4 gap-3 md:gap-4 p-4 md:p-6 rounded-xl bg-blue-950/30 backdrop-blur-sm shadow-xl border border-blue-500/30 mb-6">
         {cards.map((card, index) => (
           <motion.div
             key={card.id}
@@ -132,7 +134,7 @@ export default function MemoryGame() {
             className="perspective-1000"
           >
             <Card
-              className={`relative w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 cursor-pointer transform-style-3d transition-all duration-300 ${
+              className={`relative w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 cursor-pointer transform-style-3d transition-all duration-300 ${
                 card.isMatched
                   ? "bg-blue-900/30 border-blue-400/50"
                   : flippedIndexes.includes(index)
@@ -162,6 +164,15 @@ export default function MemoryGame() {
       >
         RESET GAME
       </Button>
+
+      <VictoryModal
+        isOpen={showVictoryModal}
+        onClose={() => setShowVictoryModal(false)}
+        onPlayAgain={resetGame}
+        title="MEMORY MASTER!"
+        message="Congratulations! You've found all the matching pairs."
+        icon={<Brain className="h-24 w-24 text-blue-400 drop-shadow-glow-blue" />}
+      />
     </div>
   )
 }
