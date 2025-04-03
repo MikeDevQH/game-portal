@@ -1,0 +1,161 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 220 70% 2%;
+  --foreground: 210 40% 98%;
+  --card: 220 70% 4%;
+  --card-foreground: 210 40% 98%;
+  --popover: 220 70% 4%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 210 100% 60%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 215 70% 15%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 215 70% 10%;
+  --muted-foreground: 215 20% 65%;
+  --accent: 210 60% 20%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 63% 31%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 210 60% 20%;
+  --input: 210 60% 20%;
+  --ring: 210 100% 60%;
+}
+
+.dark {
+  --background: 220 70% 2%;
+  --foreground: 210 40% 98%;
+  --card: 220 70% 4%;
+  --card-foreground: 210 40% 98%;
+  --popover: 220 70% 4%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 210 100% 60%;
+  --primary-foreground: 210 40% 98%;
+  --secondary: 215 70% 15%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 215 70% 10%;
+  --muted-foreground: 215 20% 65%;
+  --accent: 210 60% 20%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 63% 31%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 210 60% 20%;
+  --input: 210 60% 20%;
+  --ring: 210 100% 60%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground overflow-x-hidden;
+  }
+}
+
+/* Animated Background */
+.game-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(125deg, #000428 0%, #004e92 100%);
+  z-index: 0;
+  overflow: hidden;
+}
+
+.game-grid {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 200%;
+  background-image: linear-gradient(rgba(0, 128, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 128, 255, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+  transform-origin: center;
+  animation: grid-animation 20s linear infinite;
+}
+
+@keyframes grid-animation {
+  0% {
+    transform: perspective(500px) rotateX(60deg) translateY(0) translateX(0);
+  }
+  100% {
+    transform: perspective(500px) rotateX(60deg) translateY(40px) translateX(-40px);
+  }
+}
+
+/* Memory Game Styles */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-style-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+.icon-visible {
+  transform: rotateY(180deg);
+}
+
+.matched {
+  filter: drop-shadow(0 0 12px currentColor);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    filter: drop-shadow(0 0 5px currentColor);
+  }
+  50% {
+    filter: drop-shadow(0 0 15px currentColor);
+  }
+  100% {
+    filter: drop-shadow(0 0 5px currentColor);
+  }
+}
+
+/* Tetris Styles */
+.bg-cyan-500 {
+  background-color: rgb(6, 182, 212);
+  box-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+}
+
+.bg-blue-500 {
+  background-color: rgb(59, 130, 246);
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+}
+
+.bg-sky-500 {
+  background-color: rgb(14, 165, 233);
+  box-shadow: 0 0 10px rgba(14, 165, 233, 0.5);
+}
+
+.bg-teal-500 {
+  background-color: rgb(20, 184, 166);
+  box-shadow: 0 0 10px rgba(20, 184, 166, 0.5);
+}
+
+.bg-blue-400 {
+  background-color: rgb(96, 165, 250);
+  box-shadow: 0 0 10px rgba(96, 165, 250, 0.5);
+}
+
+.bg-cyan-400 {
+  background-color: rgb(34, 211, 238);
+  box-shadow: 0 0 10px rgba(34, 211, 238, 0.5);
+}
+
+.bg-sky-400 {
+  background-color: rgb(56, 189, 248);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+}
+
