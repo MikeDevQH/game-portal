@@ -32,7 +32,7 @@
 1. Clona este repositorio:
 
    ```sh
-   git clone https://github.com/tu-usuario/game-portal-web.git
+   git clone https://github.com/MikeDevQH/game-portal-web.git
    cd game-portal-web
    ```
 
