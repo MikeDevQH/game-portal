@@ -1,4 +1,4 @@
-import TetrisGame from "@/components/tetris-game"
+import TetrisGame from "@/components/tetris/tetris-game"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft } from "lucide-react"
