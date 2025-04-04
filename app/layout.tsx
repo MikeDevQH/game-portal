@@ -22,9 +22,9 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={cn(
+      className={cn(
           orbitron.className,
-          "h-screen antialiased overflow-hidden"
+          "h-screen antialiased overflow-auto"
         )}
       >
         <ThemeProvider
