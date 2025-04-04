@@ -1,4 +1,13 @@
-import { Gamepad2, Brain, Sparkles, Hash, Apple, Square, Bird, Cuboid } from "lucide-react";
+import {
+  Gamepad2,
+  Brain,
+  Sparkles,
+  Hash,
+  Apple,
+  Square,
+  Bird,
+  Cuboid,
+} from "lucide-react";
 import GameCard from "@/components/game-card";
 
 export default function HomePage() {
@@ -124,7 +133,7 @@ export default function HomePage() {
             borderButton="border-blue-500/30"
           />
 
-            <GameCard
+          <GameCard
             title="BLOCK PLACING"
             titleColor="text-blue-200"
             hoverTitle="group-hover:text-blue-100"
@@ -133,6 +142,27 @@ export default function HomePage() {
             icon={Cuboid}
             iconColor="text-blue-400"
             link="/block-placing"
+            borderColor="border-blue-500/30"
+            hoverBorderColor="hover:border-blue-400/60"
+            textColor="text-blue-200"
+            bgGradient="from-blue-950/50 to-slate-950/50"
+            hoverShadow="hover:shadow-blue-900/30"
+            hoverBgGradient="group-hover:from-blue-900/50 group-hover:to-slate-900/50"
+            bgButton="bg-blue-800/80 hover:bg-blue-700 text-blue-100 border border-blue-500/30"
+            hoverBgButton="hover:bg-blue-700"
+            textButton="text-blue-100"
+            borderButton="border-blue-500/30"
+          />
+
+          <GameCard
+            title="FLAPPY BIRD"
+            titleColor="text-blue-200"
+            hoverTitle="group-hover:text-blue-100"
+            description="A classic flappy bird game. Tap to make the bird avoid obstacles."
+            descriptionColor="text-blue-300/70"
+            icon={Bird}
+            iconColor="text-blue-400"
+            link="/flappy-bird"
             borderColor="border-blue-500/30"
             hoverBorderColor="hover:border-blue-400/60"
             textColor="text-blue-200"
