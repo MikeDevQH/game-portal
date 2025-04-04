@@ -1,13 +1,13 @@
-import MemoryGame from "@/components/memory-game/memory-game";
+import FlappyBird from "@/components/flappy-bird/flappy-bird";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft } from "lucide-react";
 
-export default function MemoryGamePage() {
+export default function FlappyBirdPage() {
   return (
-    <div className="overflow-hidden">
+    <div className="h-screen overflow-hidden">
       <div className="container mx-auto px-4">
-        <div className="fixed top-12 left-10 w-full z-40 py-4 px-4">
+        <div className="fixed top-12 left-10 w-full backdrop-blur-sm z-40 py-4 px-4">
           <div className="container mx-auto">
             <Link href="/">
               <Button
@@ -20,8 +20,8 @@ export default function MemoryGamePage() {
             </Link>
           </div>
         </div>
-        <div className="pt-24">
-          <MemoryGame />
+        <div className="pt-5">
+          <FlappyBird />
         </div>
       </div>
     </div>

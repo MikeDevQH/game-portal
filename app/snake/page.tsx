@@ -5,7 +5,7 @@ import { ArrowLeft } from "lucide-react";
 
 export default function SnakePage() {
   return (
-    <div className="min-h-screen">
+    <div className="overflow-hidden">
       <div className="container mx-auto px-4 py-8">
         <div className="container mx-auto">
           <Link href="/">
