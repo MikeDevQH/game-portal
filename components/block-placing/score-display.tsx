@@ -20,9 +20,9 @@ export default function ScoreDisplay({ score }: ScoreDisplayProps) {
   }, [score, springScore])
 
   return (
-    <div className="bg-slate-800 p-3 rounded-lg shadow-md">
-      <h2 className="text-sm font-semibold text-slate-400 mb-1">SCORE</h2>
-      <motion.div className="text-xl font-bold text-white">{displayScore.toLocaleString()}</motion.div>
+    <div className="bg-pink-900/80 p-3 rounded-lg shadow-md border-2 border-pink-500/30">
+      <h2 className="text-sm font-semibold text-pink-300 mb-1">SCORE</h2>
+      <motion.div className="text-xl font-bold text-pink-100">{displayScore.toLocaleString()}</motion.div>
     </div>
   )
 }

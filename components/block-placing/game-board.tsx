@@ -60,7 +60,8 @@ export default function GameBoard({ board, selectedBlock, onCellClick }: GameBoa
   }
 
   return (
-    <div className="bg-slate-800 p-4 rounded-lg shadow-lg">
+    // Asegurar que el fondo del tablero tenga un color distinto y que contraste bien con los bloques
+    <div className="bg-pink-900/80 p-4 rounded-lg shadow-lg border-2 border-pink-500/30">
       <div className="grid grid-cols-8 gap-1.5">
         {board.map((row, rowIndex) =>
           row.map((cell, colIndex) => {
@@ -86,7 +87,7 @@ export default function GameBoard({ board, selectedBlock, onCellClick }: GameBoa
                 key={`${rowIndex}-${colIndex}`}
                 className={`
                   w-10 h-10 md:w-11 md:h-11 rounded-sm relative
-                  ${cell ? `bg-${cell}-500` : "bg-gray-700"}
+                  ${cell ? `bg-${cell}-500` : "bg-pink-950/80"}
                   transition-colors duration-200
                 `}
                 onClick={() => onCellClick(rowIndex, colIndex)}

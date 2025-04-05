@@ -10,6 +10,7 @@ import {
   DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog"
+import { motion } from "framer-motion"
 import GameBoard from "@/components/block-placing/game-board"
 import BlockSelector from "@/components/block-placing/block-selector"
 import ScoreDisplay from "@/components/block-placing/score-display"
@@ -86,6 +87,7 @@ export default function GameContainer() {
     generateNewBlocks()
   }
 
+  // Modificar la generación de bloques para evitar colores similares al fondo del tablero
   const generateNewBlocks = (isLevelUp = false) => {
     // Always generate exactly 3 new blocks
     const count = 3
@@ -95,8 +97,24 @@ export default function GameContainer() {
       const randomIndex = Math.floor(Math.random() * BLOCK_SHAPES.length)
       const block = JSON.parse(JSON.stringify(BLOCK_SHAPES[randomIndex])) as Omit<BlockShape, "id" | "color">
 
-      // Assign random color
-      const colors = ["red", "blue", "green", "yellow", "purple"]
+      // Asignar colores brillantes que contrasten con el fondo slate-800
+      const colors = [
+        "red",
+        "blue",
+        "green",
+        "yellow",
+        "purple",
+        "cyan",
+        "orange",
+        "pink",
+        "teal",
+        "emerald",
+        "amber",
+        "rose",
+        "lime",
+        "fuchsia",
+        "indigo",
+      ]
       const randomColor = colors[Math.floor(Math.random() * colors.length)]
 
       // Add unique ID and color
@@ -208,13 +226,23 @@ export default function GameContainer() {
 
   return (
     <div className="flex flex-col items-center justify-center h-full">
-      <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-blue-300 via-cyan-300 to-blue-300 text-transparent bg-clip-text tracking-wider">
+      <motion.h1
+        className="text-4xl font-bold mb-6 bg-gradient-to-r from-pink-400 to-pink-300 text-transparent bg-clip-text tracking-wider"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
         BLOCK PLACER
-      </h1>
+      </motion.h1>
 
       <div className="flex gap-10 items-start max-w-6xl mx-auto">
         {/* Left side - Scores and buttons */}
-        <div className="flex flex-col gap-6 w-48">
+        <motion.div
+          className="flex flex-col gap-6 w-48"
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.2, duration: 0.6 }}
+        >
           {/* Score and Level displays */}
           <div className="flex flex-col gap-3">
             <ScoreDisplay score={score} />
@@ -227,58 +255,67 @@ export default function GameContainer() {
               onClick={rotateSelectedBlock}
               disabled={!selectedBlock}
               variant="outline"
-              className="bg-blue-800/80 hover:bg-blue-700 text-blue-100 border border-blue-500/30 w-full"
+              className="bg-pink-800/60 hover:bg-pink-700/80 text-pink-100 border-2 border-pink-500/30 w-full"
             >
               Rotate Block (R)
             </Button>
 
             <Button
               onClick={() => startNewGame()}
-              className="bg-blue-800/80 hover:bg-blue-700 text-blue-100 border border-blue-500/30 w-full"
+              className="bg-pink-800/60 hover:bg-pink-700/80 text-pink-100 border-2 border-pink-500/30 w-full"
             >
               New Game
             </Button>
           </div>
-        </div>
+        </motion.div>
 
         {/* Center - Game board and block selector */}
-        <div className="flex flex-col gap-2 items-center">
+        <motion.div
+          className="flex flex-col gap-2 items-center"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.3, duration: 0.6 }}
+        >
           {/* Game board */}
-          <div className="bg-slate-900/40 border border-blue-500/30 p-2 rounded-lg ">
+          <div className="bg-pink-950/40 border-2 border-pink-500/30 p-2 rounded-lg ">
             <GameBoard board={gameBoard} selectedBlock={selectedBlock} onCellClick={handleCellClick} />
           </div>
 
-            {/* Block selector */}
-          <BlockSelector blocks={availableBlocks} selectedBlock={selectedBlock} onSelectBlock={handleBlockSelect}/>
-          </div>
+          {/* Block selector */}
+          <BlockSelector blocks={availableBlocks} selectedBlock={selectedBlock} onSelectBlock={handleBlockSelect} />
+        </motion.div>
 
         {/* Right side - Instructions panel */}
-        <div className="bg-slate-800/80 border border-blue-500/30 p-5 rounded-lg shadow-lg w-96">
-          <h3 className="text-lg font-semibold text-blue-200 mb-4 tracking-wider">HOW TO PLAY</h3>
-          <ul className="list-disc pl-5 space-y-3 text-blue-300/90">
+        <motion.div
+          className="bg-pink-900/80 border-2 border-pink-500/30 p-5 rounded-lg shadow-lg w-96"
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.4, duration: 0.6 }}
+        >
+          <h3 className="text-lg font-semibold text-pink-200 mb-4 tracking-wider">HOW TO PLAY</h3>
+          <ul className="list-disc pl-5 space-y-3 text-pink-300/90">
             <li>Select a block from the available blocks below the game board</li>
             <li>Click on the board to place the selected block</li>
             <li>You'll get 3 new blocks after using all available blocks</li>
             <li>
               Rotate blocks by clicking the Rotate button or pressing the{" "}
-              <kbd className="px-2 py-1 bg-slate-700 rounded text-sm text-blue-300 border border-blue-500/30">R</kbd>{" "}
-              key
+              <kbd className="px-2 py-1 bg-pink-800 rounded text-sm text-pink-300 border border-pink-500/30">R</kbd> key
             </li>
             <li>Form complete horizontal lines to clear them and earn points</li>
             <li>The game ends when you can't place any more blocks</li>
             <li>Try to reach higher levels for more points!</li>
           </ul>
-        </div>
+        </motion.div>
       </div>
 
       {/* Game Over Dialog */}
       <Dialog open={isGameOver} onOpenChange={setIsGameOver}>
-        <DialogContent className="bg-slate-900 border-blue-500/30 text-blue-200">
+        <DialogContent className="bg-pink-950 border-pink-500/30 text-pink-200">
           <DialogHeader>
-            <DialogTitle className="text-blue-100 text-xl">Game Over!</DialogTitle>
+            <DialogTitle className="text-pink-100 text-xl">Game Over!</DialogTitle>
           </DialogHeader>
-          <DialogDescription className="text-blue-300">Your final results:</DialogDescription>
-          <div className="py-4 text-blue-200">
+          <DialogDescription className="text-pink-300">Your final results:</DialogDescription>
+          <div className="py-4 text-pink-200">
             <p className="text-lg">Final score: {score}</p>
             <p className="text-lg">Level reached: {level}</p>
             <p className="text-lg">Blocks placed: {placedBlocks}</p>
@@ -289,7 +326,7 @@ export default function GameContainer() {
                 startNewGame()
                 setIsGameOver(false)
               }}
-              className="bg-blue-800/80 hover:bg-blue-700 text-blue-100 border border-blue-500/30"
+              className="bg-pink-800/60 hover:bg-pink-700/80 text-pink-100 border-2 border-pink-500/30"
             >
               Play Again
             </Button>
@@ -300,3 +337,4 @@ export default function GameContainer() {
   )
 }
 
+  

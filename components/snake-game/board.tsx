@@ -18,7 +18,7 @@ export default function Board({ snake, apple, boardSize, gameOver, isPaused }: B
 
   return (
     <div
-      className="relative bg-blue-950/50 rounded-md overflow-hidden border border-blue-500/30"
+      className="relative bg-emerald-950/50 rounded-md overflow-hidden border-2 border-emerald-500/30"
       style={{
         width: `${boardPixelSize}px`,
         height: `${boardPixelSize}px`,
@@ -33,7 +33,7 @@ export default function Board({ snake, apple, boardSize, gameOver, isPaused }: B
         }}
       >
         {Array.from({ length: boardSize * boardSize }).map((_, i) => (
-          <div key={i} className="border border-blue-500/10" />
+          <div key={i} className="border border-emerald-500/10" />
         ))}
       </div>
 
@@ -78,7 +78,7 @@ export default function Board({ snake, apple, boardSize, gameOver, isPaused }: B
       {/* Pause overlay */}
       {isPaused && !gameOver && (
         <div className="absolute inset-0 bg-black/30 flex items-center justify-center backdrop-blur-sm">
-          <div className="text-2xl font-bold text-blue-300 tracking-wider">PAUSED</div>
+          <div className="text-2xl font-bold text-emerald-300 tracking-wider">PAUSED</div>
         </div>
       )}
     </div>

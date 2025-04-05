@@ -16,14 +16,14 @@ type MemoryCard = {
 
 const createCards = () => {
   const iconConfigs = [
-    { icon: Rocket, color: "text-sky-400" },
-    { icon: Diamond, color: "text-cyan-400" },
+    { icon: Rocket, color: "text-blue-400" },
+    { icon: Diamond, color: "text-blue-300" },
     { icon: Crown, color: "text-blue-400" },
-    { icon: Trophy, color: "text-teal-400" },
-    { icon: Zap, color: "text-yellow-400" },
+    { icon: Trophy, color: "text-blue-300" },
+    { icon: Zap, color: "text-blue-400" },
     { icon: Anchor, color: "text-blue-300" },
-    { icon: Plane, color: "text-sky-300" },
-    { icon: Ship, color: "text-cyan-300" },
+    { icon: Plane, color: "text-blue-400" },
+    { icon: Ship, color: "text-blue-300" },
   ]
 
   const cards: MemoryCard[] = []
@@ -107,16 +107,26 @@ export default function MemoryGame() {
 
   return (
     <div className="flex flex-col items-center justify-center">
-      <div className="text-center mb-6">
-        <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-300 via-cyan-300 to-sky-300 text-transparent bg-clip-text tracking-wider">
+      <motion.div
+        className="text-center mb-6"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-400 to-blue-300 text-transparent bg-clip-text tracking-wider">
           MEMORY MATCH
         </h1>
-        <p className="text-blue-200 tracking-wide mt-2">
+        <p className="text-blue-200/80 tracking-wide mt-2 font-light">
           MATCHES FOUND: {matches} OF {cards.length / 2}
         </p>
-      </div>
+      </motion.div>
 
-      <div className="grid grid-cols-4 gap-3 md:gap-4 p-4 md:p-6 rounded-xl bg-blue-950/30 backdrop-blur-sm shadow-xl border border-blue-500/30 mb-6">
+      <motion.div
+        className="grid grid-cols-4 gap-3 md:gap-4 p-4 md:p-6 rounded-xl bg-blue-950/30 backdrop-blur-sm shadow-xl border-2 border-blue-500/20 mb-6"
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 0.2, duration: 0.6 }}
+      >
         {cards.map((card, index) => (
           <motion.div
             key={card.id}
@@ -154,16 +164,22 @@ export default function MemoryGame() {
             </Card>
           </motion.div>
         ))}
-      </div>
+      </motion.div>
 
-      <Button
-        onClick={resetGame}
-        variant="outline"
-        size="lg"
-        className="bg-blue-950/60 border-blue-500/50 hover:bg-blue-900/60 hover:border-blue-400/70 text-blue-200 hover:text-blue-100 tracking-wider"
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.4, duration: 0.6 }}
       >
-        RESET GAME
-      </Button>
+        <Button
+          onClick={resetGame}
+          variant="outline"
+          size="lg"
+          className="bg-blue-800/60 border-blue-500/30 hover:bg-blue-700/80 text-blue-100 hover:text-blue-50 tracking-wider font-medium"
+        >
+          RESET GAME
+        </Button>
+      </motion.div>
 
       <VictoryModal
         isOpen={showVictoryModal}

@@ -7,6 +7,7 @@ import { Music, ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Gamepad2 } from "luci
 import { Card, CardContent } from "@/components/ui/card"
 import VictoryModal from "@/components/victory-modal"
 
+// Modificar los colores de los bloques de Tetris para que sean distintos y visibles
 const TETROMINOS = {
   I: { shape: [[1, 1, 1, 1]], color: "cyan-500" },
   J: {
@@ -35,25 +36,27 @@ const TETROMINOS = {
       [0, 1, 1],
       [1, 1, 0],
     ],
-    color: "blue-400",
+    color: "green-500",
   },
   T: {
     shape: [
       [0, 1, 0],
       [1, 1, 1],
     ],
-    color: "cyan-400",
+    color: "violet-500",
   },
   Z: {
     shape: [
       [1, 1, 0],
       [0, 1, 1],
     ],
-    color: "sky-400",
+    color: "pink-500",
   },
 }
 
-const BOARD_WIDTH = 10
+// Modificar el tamaño del tablero de Tetris para hacerlo más ancho y proporcionado
+// Cambiar estas constantes:
+const BOARD_WIDTH = 12
 const BOARD_HEIGHT = 20
 const INITIAL_DROP_TIME = 800
 const SPEED_INCREASE_FACTOR = 0.95
@@ -290,6 +293,7 @@ export default function TetrisGame() {
     clearInterval(dropInterval.current)
   }
 
+  // Modificar la función renderCell para asegurar que los bloques sean visibles
   const renderCell = (x, y) => {
     if (
       currentPiece &&
@@ -307,60 +311,78 @@ export default function TetrisGame() {
 
   return (
     <div className="flex flex-col items-center justify-center">
-      <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-blue-300 via-cyan-300 to-sky-300 text-transparent bg-clip-text tracking-wider">
+      <motion.h1
+        className="text-4xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-purple-300 text-transparent bg-clip-text tracking-wider"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
         TETRIS
-      </h1>
+      </motion.h1>
 
       <div className="flex flex-col md:flex-row gap-6 items-center mb-6">
-        <Card className="bg-slate-900/40 border-blue-500/30 p-4 rounded-lg shadow-lg backdrop-blur-sm">
-          <CardContent className="p-0">
-            <div
-              className="grid bg-slate-800/50 rounded-md overflow-hidden"
-              style={{
-                gridTemplateColumns: `repeat(${BOARD_WIDTH}, 1fr)`,
-                width: `${BOARD_WIDTH * 20}px`,
-                height: `${BOARD_HEIGHT * 20}px`,
-                border: "1px solid rgba(56, 189, 248, 0.2)",
-              }}
-            >
-              {board.map((row, y) =>
-                row.map((_, x) => (
-                  <AnimatePresence key={`${y}-${x}`}>
-                    <motion.div
-                      initial={false}
-                      animate={{
-                        opacity: completedRows.includes(y) ? 0 : 1,
-                        scale: completedRows.includes(y) ? 1.1 : 1,
-                      }}
-                      transition={{ duration: 0.3 }}
-                      className={`w-5 h-5 ${renderCell(x, y) ? `bg-${renderCell(x, y)}` : "bg-slate-900/80"}`}
-                      style={{ border: "1px solid rgba(56, 189, 248, 0.1)" }}
-                    />
-                  </AnimatePresence>
-                )),
-              )}
-            </div>
-          </CardContent>
-        </Card>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.2, duration: 0.6 }}
+        >
+          <Card className="bg-purple-950/40 border-purple-500/30 p-4 rounded-lg shadow-lg backdrop-blur-sm">
+            <CardContent className="p-0">
+              {/* Modificar el estilo del contenedor del tablero para que sea más ancho */}
+              {/* Buscar y reemplazar el div que contiene el grid con este: */}
+              <div
+                className="grid bg-purple-900/50 rounded-md overflow-hidden"
+                style={{
+                  gridTemplateColumns: `repeat(${BOARD_WIDTH}, 1fr)`,
+                  width: `${BOARD_WIDTH * 24}px`,
+                  height: `${BOARD_HEIGHT * 24}px`,
+                  border: "1px solid rgba(168, 85, 247, 0.2)",
+                }}
+              >
+                {board.map((row, y) =>
+                  row.map((_, x) => (
+                    <AnimatePresence key={`${y}-${x}`}>
+                      <motion.div
+                        initial={false}
+                        animate={{
+                          opacity: completedRows.includes(y) ? 0 : 1,
+                          scale: completedRows.includes(y) ? 1.1 : 1,
+                        }}
+                        transition={{ duration: 0.3 }}
+                        className={`w-6 h-6 ${renderCell(x, y) ? `bg-${renderCell(x, y)}` : "bg-purple-950/80"}`}
+                        style={{ border: "1px solid rgba(168, 85, 247, 0.1)" }}
+                      />
+                    </AnimatePresence>
+                  )),
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
 
-        <div className="flex flex-col gap-4">
-          <div className="bg-slate-900/40 border border-blue-500/30 rounded-lg p-4 backdrop-blur-sm">
-            <div className="text-xl font-bold text-blue-200 tracking-wide">SCORE: {score}</div>
-            <div className="text-lg text-blue-300 tracking-wide">LEVEL: {level}</div>
+        <motion.div
+          className="flex flex-col gap-4"
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.4, duration: 0.6 }}
+        >
+          <div className="bg-purple-950/40 border border-purple-500/30 rounded-lg p-4 backdrop-blur-sm">
+            <div className="text-xl font-bold text-purple-200 tracking-wide">SCORE: {score}</div>
+            <div className="text-lg text-purple-300/80 tracking-wide">LEVEL: {level}</div>
 
             {gameOver && <div className="mt-4 text-2xl font-bold text-red-400 tracking-wider">GAME OVER</div>}
 
             <div className="flex flex-col gap-3 mt-4">
               <Button
                 onClick={resetGame}
-                className="bg-blue-800/80 hover:bg-blue-700 text-blue-100 border-none tracking-wider"
+                className="bg-purple-800/60 hover:bg-purple-700/80 text-purple-100 border-none tracking-wider"
               >
                 {gameOver ? "PLAY AGAIN" : "RESET GAME"}
               </Button>
               <Button
                 onClick={toggleMusic}
                 variant="outline"
-                className="border-blue-500/50 text-blue-200 tracking-wider"
+                className="border-purple-500/50 text-purple-200 tracking-wider"
               >
                 <Music className="w-4 h-4 mr-2" />
                 {isMusicPlaying ? "STOP MUSIC" : "PLAY MUSIC"}
@@ -368,31 +390,31 @@ export default function TetrisGame() {
             </div>
           </div>
 
-          <div className="bg-slate-900/40 border border-blue-500/30 rounded-lg p-4 backdrop-blur-sm">
-            <h3 className="text-lg font-medium text-blue-200 mb-3 tracking-wider">CONTROLS</h3>
+          <div className="bg-purple-950/40 border border-purple-500/30 rounded-lg p-4 backdrop-blur-sm">
+            <h3 className="text-lg font-medium text-purple-200 mb-3 tracking-wider">CONTROLS</h3>
             <div className="grid grid-cols-3 gap-2 text-center">
               <div></div>
-              <Button variant="ghost" size="icon" className="bg-slate-800/50 text-blue-300">
+              <Button variant="ghost" size="icon" className="bg-purple-900/50 text-purple-300">
                 <ArrowUp className="h-5 w-5" />
               </Button>
               <div></div>
-              <Button variant="ghost" size="icon" className="bg-slate-800/50 text-blue-300">
+              <Button variant="ghost" size="icon" className="bg-purple-900/50 text-purple-300">
                 <ArrowLeft className="h-5 w-5" />
               </Button>
-              <Button variant="ghost" size="icon" className="bg-slate-800/50 text-blue-300">
+              <Button variant="ghost" size="icon" className="bg-purple-900/50 text-purple-300">
                 <ArrowDown className="h-5 w-5" />
               </Button>
-              <Button variant="ghost" size="icon" className="bg-slate-800/50 text-blue-300">
+              <Button variant="ghost" size="icon" className="bg-purple-900/50 text-purple-300">
                 <ArrowRight className="h-5 w-5" />
               </Button>
             </div>
-            <div className="mt-3 text-sm text-blue-300/70">
+            <div className="mt-3 text-sm text-purple-300/70">
               <p>ROTATE: UP ARROW</p>
               <p>MOVE: LEFT/RIGHT ARROWS</p>
               <p>SPEED UP: DOWN ARROW</p>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
 
       <audio
@@ -406,7 +428,7 @@ export default function TetrisGame() {
         onPlayAgain={resetGame}
         title="HIGH SCORE!"
         message="Congratulations! You've reached 1000 points. You're a Tetris master!"
-        icon={<Gamepad2 className="h-24 w-24 text-sky-400 drop-shadow-glow-blue" />}
+        icon={<Gamepad2 className="h-24 w-24 text-purple-400 drop-shadow-glow-purple" />}
       />
     </div>
   )

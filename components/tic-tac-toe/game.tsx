@@ -76,34 +76,54 @@ export default function Game() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-blue-300 via-cyan-300 to-sky-300 text-transparent bg-clip-text tracking-wider">
-        TIC-TAC-TOE
-      </h1>
-
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5 }}
-        className="relative w-72 h-72 bg-blue-950/30 backdrop-blur-sm rounded-lg border border-blue-500/30 p-0 overflow-hidden shadow-xl mb-6"
+    <div className="flex flex-col items-center justify-center mt-16">
+      <motion.h1
+        className="text-4xl font-bold mb-6 bg-gradient-to-r from-cyan-400 to-cyan-300 text-transparent bg-clip-text tracking-wider"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
       >
-        <Board squares={board} onClick={isXNext ? handleMove : () => {}} />
-        {showWinningLine && winningLine && <WinningLine start={winningLine[0]} end={winningLine[2]} />}
-      </motion.div>
+        TIC-TAC-TOE
+      </motion.h1>
 
-      <div className="h-16 flex flex-col items-center justify-center">
-        <div className="text-xl font-semibold text-cyan-400 tracking-wider">
-          <TypewriterText text={status} />
-        </div>
-        {isGameOver && !showVictoryModal && (
-          <Button
-            onClick={resetGame}
-            variant="outline"
-            className="mt-4 bg-blue-950/60 border-blue-500/50 hover:bg-blue-900/60 hover:border-blue-400/70 text-blue-200 hover:text-blue-100 tracking-wider"
-          >
-            PLAY AGAIN
-          </Button>
-        )}
+      <div className="flex flex-col md:flex-row gap-8 items-start mb-6 mt-5">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+          className="relative w-72 h-72 bg-cyan-950/30 backdrop-blur-sm rounded-lg border-2 border-cyan-500/30 p-0 overflow-hidden shadow-xl"
+        >
+          <Board squares={board} onClick={isXNext ? handleMove : () => {}} />
+          {showWinningLine && winningLine && <WinningLine start={winningLine[0]} end={winningLine[2]} />}
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.3, duration: 0.6 }}
+          className="bg-cyan-950/40 border-2 border-cyan-500/30 rounded-lg p-4 backdrop-blur-sm w-72"
+        >
+          <h3 className="text-lg font-medium text-cyan-200 mb-3 tracking-wider">HOW TO PLAY</h3>
+          <div className="text-sm text-cyan-300/70 space-y-2 mb-4">
+            <p>• You play as <strong>X</strong>, the AI plays as <strong>O</strong></p>
+            <p>• Take turns placing your symbol in empty squares</p>
+            <p>• The first player to get 3 of their symbols in a row (horizontally, vertically, or diagonally) wins</p>
+            <p>• If all squares are filled and no player has won, the game is a draw</p>
+          </div>
+
+          <div className="text-xl font-semibold text-cyan-400 tracking-wider text-center">
+            <TypewriterText text={status} />
+          </div>
+          {isGameOver && !showVictoryModal && (
+            <Button
+              onClick={resetGame}
+              variant="outline"
+              className="mt-4 w-full bg-cyan-950/60 border-cyan-500/50 hover:bg-cyan-900/60 hover:border-cyan-400/70 text-cyan-200 hover:text-cyan-100 tracking-wider"
+            >
+              PLAY AGAIN
+            </Button>
+          )}
+        </motion.div>
       </div>
 
       <VictoryModal

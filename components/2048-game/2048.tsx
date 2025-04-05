@@ -191,29 +191,29 @@ export default function Game2048() {
   const cellColor = (value: number) => {
     switch (value) {
       case 2:
-        return "bg-[#1e293b] text-blue-300"
+        return "bg-amber-900/80 text-amber-200"
       case 4:
-        return "bg-[#1e3a5f] text-blue-200"
+        return "bg-amber-800/80 text-amber-200"
       case 8:
-        return "bg-[#0c4a6e] text-blue-100"
+        return "bg-amber-700/80 text-amber-100"
       case 16:
-        return "bg-[#0369a1] text-white"
+        return "bg-amber-600/80 text-white"
       case 32:
-        return "bg-[#0284c7] text-white"
+        return "bg-amber-500/80 text-white"
       case 64:
-        return "bg-[#0ea5e9] text-white"
+        return "bg-amber-400/80 text-amber-950"
       case 128:
-        return "bg-[#38bdf8] text-white"
+        return "bg-amber-300/80 text-amber-950"
       case 256:
-        return "bg-[#7dd3fc] text-slate-900"
+        return "bg-amber-200/80 text-amber-950"
       case 512:
-        return "bg-[#bae6fd] text-slate-900"
+        return "bg-amber-100/80 text-amber-950"
       case 1024:
-        return "bg-[#e0f2fe] text-slate-900"
+        return "bg-amber-50/80 text-amber-950"
       case 2048:
-        return "bg-[#f0f9ff] text-slate-900"
+        return "bg-white/80 text-amber-950"
       default:
-        return "bg-slate-800/60"
+        return "bg-amber-950/60"
     }
   }
 
@@ -228,30 +228,41 @@ export default function Game2048() {
 
   return (
     <div
-      className="flex flex-col items-center justify-center h-full text-blue-200"
+      className="flex flex-col items-center justify-center h-full text-amber-200"
       ref={gameContainerRef}
       tabIndex={0}
       onKeyDown={handleKeyDown}
       aria-label="2048 Game Board"
     >
+      <motion.h1
+        className="text-4xl font-bold mb-6 bg-gradient-to-r from-amber-400 to-amber-300 text-transparent bg-clip-text tracking-wider"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        GAME 2048
+      </motion.h1>
+
       <div className="flex flex-col md:flex-row gap-8 items-start">
-        <div className="w-full max-w-md">
+        <motion.div
+          className="w-full max-w-md"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+        >
           <div className="flex justify-between items-center mb-6 w-full">
-            <h1 className="text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-300 via-cyan-300 to-blue-300">
-              2048
-            </h1>
             <div className="flex gap-2">
-              <div className="bg-slate-800/80 border border-blue-500/30 p-2 h-14 w-20 rounded-md text-blue-200 flex flex-col items-center">
-                <div className="text-sm text-blue-300/70">SCORE</div>
+              <div className="bg-amber-900/80 border-2 border-amber-500/30 p-2 h-14 w-20 rounded-md text-amber-200 flex flex-col items-center">
+                <div className="text-sm text-amber-300/70">SCORE</div>
                 <div className="font-bold">{score}</div>
               </div>
-              <div className="bg-slate-800/80 border border-blue-500/30 h-14 w-20 rounded-md p-2 text-blue-200 flex flex-col items-center">
-                <div className="text-sm text-blue-300/70">BEST</div>
+              <div className="bg-amber-900/80 border-2 border-amber-500/30 h-14 w-20 rounded-md p-2 text-amber-200 flex flex-col items-center">
+                <div className="text-sm text-amber-300/70">BEST</div>
                 <div className="font-bold">{bestScore}</div>
               </div>
             </div>
           </div>
-          <div className="bg-slate-900/40 border border-blue-500/30 p-2 rounded-lg w-fit backdrop-blur-sm">
+          <div className="bg-amber-950/40 border-2 border-amber-500/30 p-2 rounded-lg w-fit backdrop-blur-sm">
             <div
               className="relative"
               style={{
@@ -263,7 +274,7 @@ export default function Game2048() {
               {Array.from({ length: GRID_SIZE * GRID_SIZE }).map((_, index) => (
                 <div
                   key={`cell-${index}`}
-                  className="absolute bg-slate-800/60 rounded-md"
+                  className="absolute bg-amber-900/60 rounded-md"
                   style={{
                     width: `${CELL_SIZE}rem`,
                     height: `${CELL_SIZE}rem`,
@@ -311,12 +322,17 @@ export default function Game2048() {
               </AnimatePresence>
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        <div className="w-full max-w-xs flex flex-col gap-4 mt-6 md:mt-20">
-          <div className="bg-slate-800/80 border border-blue-500/30 p-4 rounded-lg">
-            <h3 className="text-lg font-semibold text-blue-200 mb-3">HOW TO PLAY</h3>
-            <p className="text-sm text-blue-300/70">
+        <motion.div
+          className="w-full max-w-xs flex flex-col gap-4 mt-6 md:mt-20"
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.3, duration: 0.6 }}
+        >
+          <div className="bg-amber-900/80 border-2 border-amber-500/30 p-4 rounded-lg">
+            <h3 className="text-lg font-semibold text-amber-200 mb-3">HOW TO PLAY</h3>
+            <p className="text-sm text-amber-300/70">
               Use your <strong>arrow keys</strong> to move the tiles. When two tiles with the same number touch, they{" "}
               <strong>merge into one!</strong>
             </p>
@@ -324,18 +340,18 @@ export default function Game2048() {
 
           <Button
             onClick={initializeGame}
-            className="bg-blue-800/80 hover:bg-blue-700 text-blue-100 border border-blue-500/30 w-full"
+            className="bg-amber-800/60 hover:bg-amber-700/80 text-amber-100 border-2 border-amber-500/30 w-full"
           >
             NEW GAME
           </Button>
-        </div>
+        </motion.div>
       </div>
 
       <Dialog open={isGameOver} onOpenChange={setIsGameOver}>
-        <DialogContent className="bg-slate-900 border-blue-500/30 text-blue-200">
+        <DialogContent className="bg-amber-950 border-amber-500/30 text-amber-200">
           <DialogHeader>
-            <DialogTitle className="text-xl text-blue-100">Game Over!</DialogTitle>
-            <DialogDescription className="text-blue-300">
+            <DialogTitle className="text-xl text-amber-100">Game Over!</DialogTitle>
+            <DialogDescription className="text-amber-300">
               Your score: {score}
               {score === bestScore && score > 0 && " (New Best!)"}
             </DialogDescription>
@@ -343,7 +359,7 @@ export default function Game2048() {
           <DialogFooter>
             <Button
               onClick={initializeGame}
-              className="bg-blue-800/80 hover:bg-blue-700 text-blue-100 border border-blue-500/30"
+              className="bg-amber-800/60 hover:bg-amber-700/80 text-amber-100 border-2 border-amber-500/30"
             >
               PLAY AGAIN
             </Button>

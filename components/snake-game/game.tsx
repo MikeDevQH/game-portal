@@ -169,9 +169,14 @@ export default function SnakeGame() {
 
   return (
     <div className="flex flex-col items-center justify-center">
-      <h1 className="text-4xl font-bold mb-6 bg-gradient-to-r from-blue-300 via-cyan-300 to-sky-300 text-transparent bg-clip-text tracking-wider">
+      <motion.h1
+        className="text-4xl font-bold mb-6 bg-gradient-to-r from-emerald-400 to-emerald-300 text-transparent bg-clip-text tracking-wider"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
         SNAKE GAME
-      </h1>
+      </motion.h1>
 
       <div className="flex flex-col md:flex-row gap-6 items-center mb-6">
         <motion.div
@@ -179,20 +184,25 @@ export default function SnakeGame() {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
         >
-          <Card className="bg-slate-900/40 border-blue-500/30 p-4 rounded-lg shadow-lg backdrop-blur-sm">
+          <Card className="bg-emerald-950/40 border-emerald-500/30 p-4 rounded-lg shadow-lg backdrop-blur-sm">
             <Board snake={snake} apple={apple} boardSize={BOARD_SIZE} gameOver={gameOver} isPaused={isPaused} />
           </Card>
         </motion.div>
 
-        <div className="flex flex-col gap-4">
-          <div className="bg-slate-900/40 border border-blue-500/30 rounded-lg p-4 backdrop-blur-sm">
-            <div className="text-xl font-bold text-blue-200 tracking-wide">SCORE: {score}</div>
-            <div className="text-lg text-blue-300 tracking-wide">HIGH SCORE: {highScore}</div>
+        <motion.div
+          className="flex flex-col gap-4"
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.3, duration: 0.6 }}
+        >
+          <div className="bg-emerald-950/40 border border-emerald-500/30 rounded-lg p-4 backdrop-blur-sm">
+            <div className="text-xl font-bold text-emerald-200 tracking-wide">SCORE: {score}</div>
+            <div className="text-lg text-emerald-300/80 tracking-wide">HIGH SCORE: {highScore}</div>
 
             {gameOver && <div className="mt-4 text-2xl font-bold text-red-400 tracking-wider">GAME OVER</div>}
 
             {!gameStarted && !gameOver && (
-              <div className="mt-4 text-xl font-medium text-blue-300 tracking-wider">PRESS START TO PLAY</div>
+              <div className="mt-4 text-xl font-medium text-emerald-300 tracking-wider">PRESS START TO PLAY</div>
             )}
 
             {isPaused && !gameOver && !showVictoryModal && (
@@ -202,7 +212,7 @@ export default function SnakeGame() {
             <div className="flex flex-col gap-3 mt-4">
               <Button
                 onClick={gameStarted ? togglePause : startGame}
-                className="bg-blue-800/80 hover:bg-blue-700 text-blue-100 border-none tracking-wider"
+                className="bg-emerald-800/60 hover:bg-emerald-700/80 text-emerald-100 border-none tracking-wider"
               >
                 {gameOver ? "PLAY AGAIN" : gameStarted ? (isPaused ? "RESUME" : "PAUSE") : "START GAME"}
               </Button>
@@ -211,16 +221,16 @@ export default function SnakeGame() {
 
           <Controls onDirectionChange={setDirection} />
 
-          <div className="bg-slate-900/40 border border-blue-500/30 rounded-lg p-4 backdrop-blur-sm">
-            <h3 className="text-lg font-medium text-blue-200 mb-3 tracking-wider">HOW TO PLAY</h3>
-            <div className="text-sm text-blue-300/70">
+          <div className="bg-emerald-950/40 border border-emerald-500/30 rounded-lg p-4 backdrop-blur-sm">
+            <h3 className="text-lg font-medium text-emerald-200 mb-3 tracking-wider">HOW TO PLAY</h3>
+            <div className="text-sm text-emerald-300/70">
               <p>Use ARROW KEYS to control the snake</p>
               <p>Collect apples to grow longer</p>
               <p>Avoid hitting walls and yourself</p>
               <p>Press SPACE to pause the game</p>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
 
       <VictoryModal

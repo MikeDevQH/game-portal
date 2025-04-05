@@ -8,7 +8,7 @@ interface SquareProps {
 export default function Square({ value, onClick }: SquareProps) {
   return (
     <button
-      className="flex h-24 w-24 items-center justify-center border border-blue-800/50 text-5xl font-bold transition-all hover:bg-blue-900/30 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:ring-opacity-50 bg-blue-950/40 backdrop-blur-sm"
+      className="flex h-24 w-24 items-center justify-center border border-cyan-800/50 text-5xl font-bold transition-all hover:bg-cyan-900/30 focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:ring-opacity-50 bg-cyan-950/40"
       onClick={onClick}
     >
       {value === "x" && (
@@ -19,7 +19,7 @@ export default function Square({ value, onClick }: SquareProps) {
           </div>
         </div>
       )}
-      {value === "o" && <div className="h-12 w-12 rounded-full border-4 border-blue-400 shadow-glow-blue" />}
+      {value === "o" && <div className="h-12 w-12 rounded-full border-4 border-cyan-400 shadow-glow-cyan" />}
     </button>
   )
 }

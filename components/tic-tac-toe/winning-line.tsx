@@ -33,7 +33,7 @@ export default function WinningLine({ start, end }: WinningLineProps) {
         y1={startCoord.y}
         x2={endCoord.x}
         y2={endCoord.y}
-        stroke="rgb(56, 189, 248)" // sky-400
+        stroke="rgb(34, 211, 238)" // cyan-400
         strokeWidth="6"
         strokeLinecap="round"
         strokeDasharray={lineLength}

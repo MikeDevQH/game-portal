@@ -13,9 +13,9 @@ interface SnakeSegmentProps {
 export default function SnakeSegment({ segment, index, isHead, cellSize, direction }: SnakeSegmentProps) {
   // Calculate color based on position in snake
   const getSegmentColor = () => {
-    if (isHead) return "bg-cyan-400"
+    if (isHead) return "bg-emerald-400"
     // Alternate colors for body segments
-    return index % 2 === 0 ? "bg-blue-500" : "bg-blue-400"
+    return index % 2 === 0 ? "bg-emerald-500" : "bg-emerald-400"
   }
 
   // Get rotation angle based on direction
@@ -41,20 +41,21 @@ export default function SnakeSegment({ segment, index, isHead, cellSize, directi
       animate={{ scale: 1 }}
       exit={{ scale: 0, opacity: 0 }}
       transition={{ duration: 0.1 }}
-      className={`absolute rounded-full ${getSegmentColor()} shadow-glow-blue`}
+      className={`absolute rounded-full ${getSegmentColor()} shadow-glow-green`}
       style={{
         width: `${cellSize - 2}px`,
         height: `${cellSize - 2}px`,
         left: `${segment.x * cellSize + 1}px`,
         top: `${segment.y * cellSize + 1}px`,
         zIndex: 1000 - index,
+        boxShadow: "0 0 10px rgba(16, 185, 129, 0.6)",
       }}
     >
       {isHead && (
         <div className="relative w-full h-full">
           {/* Snake eyes */}
           <div
-            className="absolute w-1.5 h-1.5 bg-blue-950 rounded-full"
+            className="absolute w-1.5 h-1.5 bg-emerald-950 rounded-full"
             style={{
               transform: `rotate(${getRotation()}deg)`,
               top: "25%",
@@ -62,7 +63,7 @@ export default function SnakeSegment({ segment, index, isHead, cellSize, directi
             }}
           />
           <div
-            className="absolute w-1.5 h-1.5 bg-blue-950 rounded-full"
+            className="absolute w-1.5 h-1.5 bg-emerald-950 rounded-full"
             style={{
               transform: `rotate(${getRotation()}deg)`,
               top: "25%",
