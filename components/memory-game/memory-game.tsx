@@ -121,65 +121,83 @@ export default function MemoryGame() {
         </p>
       </motion.div>
 
-      <motion.div
-        className="grid grid-cols-4 gap-3 md:gap-4 p-4 md:p-6 rounded-xl bg-blue-950/30 backdrop-blur-sm shadow-xl border-2 border-blue-500/20 mb-6"
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.2, duration: 0.6 }}
-      >
-        {cards.map((card, index) => (
-          <motion.div
-            key={card.id}
-            initial={{ rotateY: 0, opacity: 0, scale: 0.8 }}
-            animate={{
-              rotateY: card.isMatched || flippedIndexes.includes(index) ? 180 : 0,
-              opacity: 1,
-              scale: 1,
-              transition: {
-                delay: index * 0.05,
-                duration: 0.3,
-              },
-            }}
-            whileHover={{ scale: 1.05 }}
-            className="perspective-1000"
-          >
-            <Card
-              className={`relative w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 cursor-pointer transform-style-3d transition-all duration-300 ${
-                card.isMatched
-                  ? "bg-blue-900/30 border-blue-400/50"
-                  : flippedIndexes.includes(index)
-                    ? "bg-blue-800/40 border-blue-500/50"
-                    : "bg-blue-950/60 border-blue-600/30 hover:border-blue-500/60 hover:bg-blue-900/40"
-              }`}
-              onClick={() => handleCardClick(index)}
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-transparent via-blue-500/5 to-white/5" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                {(card.isMatched || flippedIndexes.includes(index)) && (
-                  <card.icon
-                    className={`w-8 h-8 md:w-10 md:h-10 ${card.isMatched ? `${card.color} matched` : card.color}`}
-                  />
-                )}
-              </div>
-            </Card>
-          </motion.div>
-        ))}
-      </motion.div>
-
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4, duration: 0.6 }}
-      >
-        <Button
-          onClick={resetGame}
-          variant="outline"
-          size="lg"
-          className="bg-blue-800/60 border-blue-500/30 hover:bg-blue-700/80 text-blue-100 hover:text-blue-50 tracking-wider font-medium"
+      <div className="flex flex-col md:flex-row gap-8 items-start mb-6">
+        <motion.div
+          className="grid grid-cols-4 gap-3 md:gap-4 p-4 md:p-6 rounded-xl bg-blue-950/30 backdrop-blur-sm shadow-xl border-2 border-blue-500/20 mb-6"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.2, duration: 0.6 }}
         >
-          RESET GAME
-        </Button>
-      </motion.div>
+          {cards.map((card, index) => (
+            <motion.div
+              key={card.id}
+              initial={{ rotateY: 0, opacity: 0, scale: 0.8 }}
+              animate={{
+                rotateY: card.isMatched || flippedIndexes.includes(index) ? 180 : 0,
+                opacity: 1,
+                scale: 1,
+                transition: {
+                  delay: index * 0.05,
+                  duration: 0.3,
+                },
+              }}
+              whileHover={{ scale: 1.05 }}
+              className="perspective-1000"
+            >
+              <Card
+                className={`relative w-16 h-16 sm:w-18 sm:h-18 md:w-20 md:h-20 cursor-pointer transform-style-3d transition-all duration-300 ${
+                  card.isMatched
+                    ? "bg-blue-900/30 border-blue-400/50"
+                    : flippedIndexes.includes(index)
+                      ? "bg-blue-800/40 border-blue-500/50"
+                      : "bg-blue-950/60 border-blue-600/30 hover:border-blue-500/60 hover:bg-blue-900/40"
+                }`}
+                onClick={() => handleCardClick(index)}
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-transparent via-blue-500/5 to-white/5" />
+                <div className="absolute inset-0 flex items-center justify-center">
+                  {(card.isMatched || flippedIndexes.includes(index)) && (
+                    <card.icon
+                      className={`w-8 h-8 md:w-10 md:h-10 ${card.isMatched ? `${card.color} matched` : card.color}`}
+                    />
+                  )}
+                </div>
+              </Card>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        <motion.div
+          className="flex flex-col gap-4"
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.4, duration: 0.6 }}
+        >
+          <div className="bg-blue-950/40 border-2 border-blue-500/30 rounded-lg p-4 backdrop-blur-sm w-72">
+            <h3 className="text-lg font-medium text-blue-200 mb-3 tracking-wider">HOW TO PLAY</h3>
+            <div className="text-sm text-blue-300/70 space-y-2 mb-4">
+              <p>• Click on any card to flip it and reveal the icon</p>
+              <p>• Try to find matching pairs of icons</p>
+              <p>• When you flip two cards with the same icon, they stay revealed</p>
+              <p>• If the icons don't match, the cards will flip back</p>
+              <p>• The goal is to find all matching pairs with the fewest moves</p>
+              <p>• Train your memory and have fun!</p>
+            </div>
+          </div>
+
+          <div className="bg-blue-950/40 border-2 border-blue-500/30 rounded-lg p-4 backdrop-blur-sm">
+            
+            <Button
+              onClick={resetGame}
+              variant="outline"
+              size="lg"
+              className="w-full bg-blue-800/60 border-blue-500/30 hover:bg-blue-700/80 text-blue-100 hover:text-blue-50 tracking-wider font-medium"
+            >
+              RESET GAME
+            </Button>
+          </div>
+        </motion.div>
+      </div>
 
       <VictoryModal
         isOpen={showVictoryModal}
