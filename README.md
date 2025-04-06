@@ -16,7 +16,7 @@
 
 ## 📸 Capturas de Pantalla
 
-> [Game Portal](/public/dashboard.png)
+![Game Portal](/public/dashboard.png)
 
 ## 🛠️ Tecnologías Usadas
 
