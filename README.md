@@ -9,6 +9,9 @@
   - 🕹️ **Tetris**
   - 🐍 **Snake**
   - ❌⭕ **Tic-Tac-Toe** (Tres en raya)
+  - 🔢 **Game 2048**
+  - 🧱 **Block Placing**
+  - 🐦 **Flappy Bird**
 - 🎨 Diseño responsivo con **Tailwind CSS**.
 - 🌙 Modo claro/oscuro (próximamente).
 - ⚡ Rápido y ligero gracias a **Next.js** y optimizaciones de rendimiento.
