@@ -8,7 +8,7 @@ import { calculateWinner, getAIMove } from "@/utils/game-logic"
 import { Button } from "@/components/ui/button"
 import { motion } from "framer-motion"
 import VictoryModal from "@/components/victory-modal"
-import { Trophy } from "lucide-react"
+import { Hash } from "lucide-react"
 
 export default function Game() {
   const [board, setBoard] = useState(Array(9).fill(null))
@@ -132,7 +132,7 @@ export default function Game() {
         onPlayAgain={resetGame}
         title="VICTORY!"
         message="Congratulations! You've defeated the AI opponent."
-        icon={<Trophy className="h-24 w-24 text-yellow-400 drop-shadow-glow-yellow" />}
+        icon={<Hash className="h-24 w-24 text-cyan-500 drop-shadow-glow-cyan" />}
       />
     </div>
   )

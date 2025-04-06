@@ -87,7 +87,7 @@ export default function GameContainer() {
     generateNewBlocks()
   }
 
-  // Modificar la generación de bloques para evitar colores similares al fondo del tablero
+  // Modified to use high-contrast colors that don't blend with the pink background
   const generateNewBlocks = (isLevelUp = false) => {
     // Always generate exactly 3 new blocks
     const count = 3
@@ -97,24 +97,9 @@ export default function GameContainer() {
       const randomIndex = Math.floor(Math.random() * BLOCK_SHAPES.length)
       const block = JSON.parse(JSON.stringify(BLOCK_SHAPES[randomIndex])) as Omit<BlockShape, "id" | "color">
 
-      // Asignar colores brillantes que contrasten con el fondo slate-800
-      const colors = [
-        "red",
-        "blue",
-        "green",
-        "yellow",
-        "purple",
-        "cyan",
-        "orange",
-        "pink",
-        "teal",
-        "emerald",
-        "amber",
-        "rose",
-        "lime",
-        "fuchsia",
-        "indigo",
-      ]
+      // Use high-contrast colors that stand out against the pink background
+      // Avoid pink/magenta/purple colors that might blend with the background
+      const colors = ["cyan", "blue", "green", "yellow", "orange", "teal", "lime", "sky", "emerald", "amber", "indigo"]
       const randomColor = colors[Math.floor(Math.random() * colors.length)]
 
       // Add unique ID and color
@@ -337,4 +322,3 @@ export default function GameContainer() {
   )
 }
 
-  

@@ -245,23 +245,11 @@ export default function Game2048() {
 
       <div className="flex flex-col md:flex-row gap-8 items-start">
         <motion.div
-          className="w-full max-w-md"
+          className="w-full max-w-md order-2 md:order-1"
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5 }}
         >
-          <div className="flex justify-between items-center mb-6 w-full">
-            <div className="flex gap-2">
-              <div className="bg-amber-900/80 border-2 border-amber-500/30 p-2 h-14 w-20 rounded-md text-amber-200 flex flex-col items-center">
-                <div className="text-sm text-amber-300/70">SCORE</div>
-                <div className="font-bold">{score}</div>
-              </div>
-              <div className="bg-amber-900/80 border-2 border-amber-500/30 h-14 w-20 rounded-md p-2 text-amber-200 flex flex-col items-center">
-                <div className="text-sm text-amber-300/70">BEST</div>
-                <div className="font-bold">{bestScore}</div>
-              </div>
-            </div>
-          </div>
           <div className="bg-amber-950/40 border-2 border-amber-500/30 p-2 rounded-lg w-fit backdrop-blur-sm">
             <div
               className="relative"
@@ -325,11 +313,22 @@ export default function Game2048() {
         </motion.div>
 
         <motion.div
-          className="w-full max-w-xs flex flex-col gap-4 mt-6 md:mt-20"
+          className="w-full max-w-xs flex flex-col gap-4 order-1 md:order-2"
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.3, duration: 0.6 }}
         >
+          <div className="flex gap-7 mb-4">
+            <div className="bg-amber-900/80 border-2 border-amber-500/30 p-2 h-16 w-36 rounded-md text-amber-200 flex flex-col items-center">
+              <div className="text-sm text-amber-300/70">SCORE</div>
+              <div className="font-bold">{score}</div>
+            </div>
+            <div className="bg-amber-900/80 border-2 border-amber-500/30 h-16 w-36 rounded-md p-2 text-amber-200 flex flex-col items-center">
+              <div className="text-sm text-amber-300/70">BEST</div>
+              <div className="font-bold">{bestScore}</div>
+            </div>
+          </div>
+
           <div className="bg-amber-900/80 border-2 border-amber-500/30 p-4 rounded-lg">
             <h3 className="text-lg font-semibold text-amber-200 mb-3">HOW TO PLAY</h3>
             <p className="text-sm text-amber-300/70">

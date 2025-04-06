@@ -10,7 +10,10 @@ export default function Game2048Page() {
         <div className="fixed top-12 left-10 w-full z-40 py-4 px-4">
           <div className="container mx-auto">
             <Link href="/">
-              <Button variant="ghost" className="text-blue-200 hover:text-blue-100 hover:bg-blue-900/20">
+              <Button 
+              variant="ghost" 
+              className="mt-5 font-bold text-amber-300 hover:text-amber-200 hover:bg-amber-900/20 hover:scale-110 transition-all duration-300 "
+>
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 BACK TO GAMES
               </Button>

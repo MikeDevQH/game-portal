@@ -11,7 +11,7 @@ export default function SnakePage() {
           <Link href="/">
             <Button
               variant="ghost"
-              className="text-blue-200 hover:text-blue-100 hover:bg-blue-900/20"
+              className="mt-5 font-bold text-emerald-300 hover:text-emerald-200 hover:bg-emerald-900/20 hover:scale-110 transition-all duration-300 "
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
               BACK TO GAMES

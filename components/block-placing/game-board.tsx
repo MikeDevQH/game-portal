@@ -60,7 +60,7 @@ export default function GameBoard({ board, selectedBlock, onCellClick }: GameBoa
   }
 
   return (
-    // Asegurar que el fondo del tablero tenga un color distinto y que contraste bien con los bloques
+    // Ensure the board background has a distinct color that contrasts well with the blocks
     <div className="bg-pink-900/80 p-4 rounded-lg shadow-lg border-2 border-pink-500/30">
       <div className="grid grid-cols-8 gap-1.5">
         {board.map((row, rowIndex) =>

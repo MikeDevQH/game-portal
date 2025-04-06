@@ -12,7 +12,7 @@ export default function FlappyBirdPage() {
             <Link href="/">
               <Button
                 variant="ghost"
-                className="text-blue-200 hover:text-blue-100 hover:bg-blue-900/20"
+                className="mt-5 font-bold text-sky-300 hover:text-sky-200 hover:bg-sky-900/20 hover:scale-110 transition-all duration-300 "
               >
                 <ArrowLeft className="mr-2 h-4 w-4" />
                 BACK TO GAMES
