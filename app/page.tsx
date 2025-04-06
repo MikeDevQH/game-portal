@@ -7,7 +7,7 @@ import { motion } from "framer-motion"
 export default function HomePage() {
   return (
     <div className="h-screen">
-      <div className="container mx-auto px-4 py-10">
+      <div className="container mt-10 px-4 py-10">
         <div className="text-center mb-12 space-y-6">
           <div className="relative inline-block">
             <motion.h1
@@ -50,7 +50,7 @@ export default function HomePage() {
         </div>
 
         <motion.div
-          className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto"
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-20 max-w-7xl mx-auto"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.7, duration: 0.6 }}
@@ -110,6 +110,15 @@ export default function HomePage() {
             link="/flappy-bird"
             color="sky"
           />
+
+          <GameCard
+            title="ONE LINE"
+            description="Complete drawings with a single line without repeating"
+            icon={Spline}
+            link="/one-line"
+            color="indigo"
+          />
+
         </motion.div>
       </div>
     </div>
