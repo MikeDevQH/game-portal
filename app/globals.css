@@ -327,6 +327,10 @@
   filter: drop-shadow(0 0 10px rgba(250, 204, 21, 0.7));
 }
 
+.drop-shadow-glow-indigo {
+  filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.7));
+}
+
 /* Snake Game Styles */
 .drop-shadow-glow-red {
   filter: drop-shadow(0 0 10px rgba(239, 68, 68, 0.7));
