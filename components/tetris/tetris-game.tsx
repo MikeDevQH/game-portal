@@ -7,50 +7,54 @@ import { Music, ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Gamepad2 } from "luci
 import { Card, CardContent } from "@/components/ui/card"
 import VictoryModal from "@/components/victory-modal"
 
-// Modificar los colores de los bloques de Tetris para que sean distintos y visibles
+// Completely revised TETROMINOS with bright, high-contrast colors
+// Using custom CSS classes instead of Tailwind colors to ensure visibility
 const TETROMINOS = {
-  I: { shape: [[1, 1, 1, 1]], color: "cyan-500" },
+  I: {
+    shape: [[1, 1, 1, 1]],
+    color: "tetris-block-cyan",
+  },
   J: {
     shape: [
       [1, 0, 0],
       [1, 1, 1],
     ],
-    color: "blue-500",
+    color: "tetris-block-blue",
   },
   L: {
     shape: [
       [0, 0, 1],
       [1, 1, 1],
     ],
-    color: "sky-500",
+    color: "tetris-block-orange",
   },
   O: {
     shape: [
       [1, 1],
       [1, 1],
     ],
-    color: "teal-500",
+    color: "tetris-block-yellow",
   },
   S: {
     shape: [
       [0, 1, 1],
       [1, 1, 0],
     ],
-    color: "green-500",
+    color: "tetris-block-green",
   },
   T: {
     shape: [
       [0, 1, 0],
       [1, 1, 1],
     ],
-    color: "violet-500",
+    color: "tetris-block-red",
   },
   Z: {
     shape: [
       [1, 1, 0],
       [0, 1, 1],
     ],
-    color: "pink-500",
+    color: "tetris-block-magenta",
   },
 }
 
@@ -59,15 +63,25 @@ const TETROMINOS = {
 const BOARD_WIDTH = 12
 const BOARD_HEIGHT = 20
 const INITIAL_DROP_TIME = 800
+const SOFT_DROP_FACTOR = 0.2 // Soft drop is 5x faster than normal
 const SPEED_INCREASE_FACTOR = 0.95
 const HIGH_SCORE_THRESHOLD = 1000
 
 const createEmptyBoard = () => Array.from({ length: BOARD_HEIGHT }, () => Array(BOARD_WIDTH).fill(0))
 
-const randomTetromino = () => {
-  const keys = Object.keys(TETROMINOS)
-  const randKey = keys[Math.floor(Math.random() * keys.length)]
-  return TETROMINOS[randKey]
+// Fisher-Yates shuffle algorithm
+const shuffleArray = (array) => {
+  const newArray = [...array]
+  for (let i = newArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[newArray[i], newArray[j]] = [newArray[j], newArray[i]]
+  }
+  return newArray
+}
+
+// Create a new bag with all 7 tetrominos
+const createNewBag = () => {
+  return shuffleArray(Object.keys(TETROMINOS))
 }
 
 export default function TetrisGame() {
@@ -80,8 +94,69 @@ export default function TetrisGame() {
   const [isMusicPlaying, setIsMusicPlaying] = useState(false)
   const [completedRows, setCompletedRows] = useState([])
   const [showVictoryModal, setShowVictoryModal] = useState(false)
+  // 7-Bag Randomizer state
+  const [tetrominoBag, setTetrominoBag] = useState(createNewBag())
+  // Soft drop state
+  const [isSoftDropping, setIsSoftDropping] = useState(false)
   const audioRef = useRef(null)
   const dropInterval = useRef(null)
+  const lastDropTime = useRef(Date.now())
+
+  // Add custom CSS for tetris blocks
+  useEffect(() => {
+    // Add custom CSS for tetris blocks
+    const style = document.createElement("style")
+    style.textContent = `
+      .tetris-block-cyan {
+        background-color: #00FFFF !important;
+        box-shadow: 0 0 8px #00FFFF !important;
+      }
+      .tetris-block-blue {
+        background-color: #0066FF !important;
+        box-shadow: 0 0 8px #0066FF !important;
+      }
+      .tetris-block-orange {
+        background-color: #FF9900 !important;
+        box-shadow: 0 0 8px #FF9900 !important;
+      }
+      .tetris-block-yellow {
+        background-color: #FFFF00 !important;
+        box-shadow: 0 0 8px #FFFF00 !important;
+      }
+      .tetris-block-green {
+        background-color: #00FF00 !important;
+        box-shadow: 0 0 8px #00FF00 !important;
+      }
+      .tetris-block-red {
+        background-color: #FF0000 !important;
+        box-shadow: 0 0 8px #FF0000 !important;
+      }
+      .tetris-block-magenta {
+        background-color: #FF00FF !important;
+        box-shadow: 0 0 8px #FF00FF !important;
+      }
+    `
+    document.head.appendChild(style)
+
+    return () => {
+      document.head.removeChild(style)
+    }
+  }, [])
+
+  // Get next tetromino from the bag using 7-Bag Randomizer system
+  const getNextTetromino = useCallback(() => {
+    // If the bag is empty, create a new one
+    if (tetrominoBag.length === 0) {
+      const newBag = createNewBag()
+      setTetrominoBag(newBag.slice(1))
+      return TETROMINOS[newBag[0]]
+    }
+
+    // Take the first piece from the bag
+    const nextPiece = tetrominoBag[0]
+    setTetrominoBag(tetrominoBag.slice(1))
+    return TETROMINOS[nextPiece]
+  }, [tetrominoBag])
 
   const checkCollision = (x, y, shape) => {
     for (let row = 0; row < shape.length; row++) {
@@ -155,11 +230,6 @@ export default function TetrisGame() {
       y: newY,
       tetromino: { ...prev.tetromino, shape: rotated },
     }))
-
-    // Continue falling after rotation
-    if (isValidMove(newX, newY + 1, rotated) && newY + 1 < BOARD_HEIGHT) {
-      setCurrentPiece((prev) => ({ ...prev, y: prev.y + 1 }))
-    }
   }, [currentPiece, board])
 
   const placePiece = useCallback(() => {
@@ -223,31 +293,50 @@ export default function TetrisGame() {
     const newPiece = {
       x: Math.floor(BOARD_WIDTH / 2) - 1,
       y: 0,
-      tetromino: randomTetromino(),
+      tetromino: getNextTetromino(),
     }
     if (checkCollision(newPiece.x, newPiece.y, newPiece.tetromino.shape)) {
       setGameOver(true)
     } else {
       setCurrentPiece(newPiece)
     }
-  }, [board])
+  }, [getNextTetromino])
 
+  // Game loop using requestAnimationFrame instead of setInterval
   useEffect(() => {
-    if (!currentPiece && !gameOver) {
-      spawnNewPiece()
+    if (gameOver) return
+
+    let animationId: number
+    let lastTime = 0
+
+    const gameLoop = (timestamp: number) => {
+      if (!lastTime) lastTime = timestamp
+      const deltaTime = timestamp - lastTime
+
+      // Calculate current drop interval based on level and soft drop state
+      const currentDropTime = isSoftDropping ? dropTime * SOFT_DROP_FACTOR : dropTime
+
+      // Only move down if enough time has passed
+      if (deltaTime > currentDropTime) {
+        moveDown()
+        lastTime = timestamp
+      }
+
+      animationId = requestAnimationFrame(gameLoop)
     }
-  }, [currentPiece, gameOver, spawnNewPiece])
 
-  useEffect(() => {
-    if (!gameOver) {
-      dropInterval.current = setInterval(moveDown, dropTime)
+    animationId = requestAnimationFrame(gameLoop)
+
+    return () => {
+      cancelAnimationFrame(animationId)
     }
-    return () => clearInterval(dropInterval.current)
-  }, [moveDown, gameOver, dropTime])
+  }, [moveDown, gameOver, dropTime, isSoftDropping])
 
+  // Handle keyboard events
   useEffect(() => {
-    const handleKeyPress = (e) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (gameOver) return
+
       switch (e.key) {
         case "ArrowLeft":
           moveLeft()
@@ -256,7 +345,10 @@ export default function TetrisGame() {
           moveRight()
           break
         case "ArrowDown":
-          moveDown()
+          // Instead of calling moveDown directly, just set the soft drop flag
+          if (!isSoftDropping) {
+            setIsSoftDropping(true)
+          }
           break
         case "ArrowUp":
           rotate()
@@ -265,9 +357,27 @@ export default function TetrisGame() {
           break
       }
     }
-    window.addEventListener("keydown", handleKeyPress)
-    return () => window.removeEventListener("keydown", handleKeyPress)
-  }, [moveLeft, moveRight, moveDown, rotate, gameOver])
+
+    const handleKeyUp = (e: KeyboardEvent) => {
+      if (e.key === "ArrowDown") {
+        setIsSoftDropping(false)
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown)
+    window.addEventListener("keyup", handleKeyUp)
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown)
+      window.removeEventListener("keyup", handleKeyUp)
+    }
+  }, [moveLeft, moveRight, rotate, gameOver, isSoftDropping])
+
+  useEffect(() => {
+    if (!currentPiece && !gameOver) {
+      spawnNewPiece()
+    }
+  }, [currentPiece, gameOver, spawnNewPiece])
 
   useEffect(() => {
     if (audioRef.current) {
@@ -290,7 +400,8 @@ export default function TetrisGame() {
     setLevel(1)
     setCompletedRows([])
     setShowVictoryModal(false)
-    clearInterval(dropInterval.current)
+    setTetrominoBag(createNewBag()) // Reset the bag when starting a new game
+    setIsSoftDropping(false)
   }
 
   // Modificar la función renderCell para asegurar que los bloques sean visibles
@@ -309,6 +420,15 @@ export default function TetrisGame() {
     setIsMusicPlaying(!isMusicPlaying)
   }
 
+  // Handle touch controls for soft drop
+  const handleTouchStartDown = () => {
+    setIsSoftDropping(true)
+  }
+
+  const handleTouchEndDown = () => {
+    setIsSoftDropping(false)
+  }
+
   return (
     <div className="flex flex-col items-center justify-center">
       <motion.h1
@@ -320,55 +440,18 @@ export default function TetrisGame() {
         TETRIS
       </motion.h1>
 
-      <div className="flex flex-col md:flex-row gap-6 items-center mb-6">
+      <div className="flex flex-col md:flex-row gap-6 items-start mb-6">
+        {/* Left side - Score and Level */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-        >
-          <Card className="bg-purple-950/40 border-purple-500/30 p-4 rounded-lg shadow-lg backdrop-blur-sm">
-            <CardContent className="p-0">
-              {/* Modificar el estilo del contenedor del tablero para que sea más ancho */}
-              {/* Buscar y reemplazar el div que contiene el grid con este: */}
-              <div
-                className="grid bg-purple-900/50 rounded-md overflow-hidden"
-                style={{
-                  gridTemplateColumns: `repeat(${BOARD_WIDTH}, 1fr)`,
-                  width: `${BOARD_WIDTH * 24}px`,
-                  height: `${BOARD_HEIGHT * 24}px`,
-                  border: "1px solid rgba(168, 85, 247, 0.2)",
-                }}
-              >
-                {board.map((row, y) =>
-                  row.map((_, x) => (
-                    <AnimatePresence key={`${y}-${x}`}>
-                      <motion.div
-                        initial={false}
-                        animate={{
-                          opacity: completedRows.includes(y) ? 0 : 1,
-                          scale: completedRows.includes(y) ? 1.1 : 1,
-                        }}
-                        transition={{ duration: 0.3 }}
-                        className={`w-6 h-6 ${renderCell(x, y) ? `bg-${renderCell(x, y)}` : "bg-purple-950/80"}`}
-                        style={{ border: "1px solid rgba(168, 85, 247, 0.1)" }}
-                      />
-                    </AnimatePresence>
-                  )),
-                )}
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
-
-        <motion.div
-          className="flex flex-col gap-4"
-          initial={{ opacity: 0, x: 20 }}
+          className="flex flex-col gap-4 order-2 md:order-1"
+          initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.4, duration: 0.6 }}
+          transition={{ delay: 0.2, duration: 0.6 }}
         >
           <div className="bg-purple-950/40 border border-purple-500/30 rounded-lg p-4 backdrop-blur-sm">
             <div className="text-xl font-bold text-purple-200 tracking-wide">SCORE: {score}</div>
             <div className="text-lg text-purple-300/80 tracking-wide">LEVEL: {level}</div>
+            <div className="text-sm text-purple-300/60 tracking-wide mt-1">NEXT PIECES: {tetrominoBag.length}</div>
 
             {gameOver && <div className="mt-4 text-2xl font-bold text-red-400 tracking-wider">GAME OVER</div>}
 
@@ -391,27 +474,110 @@ export default function TetrisGame() {
           </div>
 
           <div className="bg-purple-950/40 border border-purple-500/30 rounded-lg p-4 backdrop-blur-sm">
+            <h3 className="text-lg font-medium text-purple-200 mb-2 tracking-wider">GAME INFO</h3>
+            <div className="text-sm text-purple-300/70">
+              <p>• Using official 7-Bag Randomizer</p>
+              <p>• Each set of 7 pieces contains all shapes</p>
+              <p>• Soft drop: Hold down to speed up</p>
+              <p>• Hard drop: Press space to instantly place</p>
+              <p>• Clear lines to score points</p>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Center - Game Board */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.3, duration: 0.6 }}
+          className="order-1 md:order-2"
+        >
+          <Card className="bg-purple-950/40 border-purple-500/30 p-4 rounded-lg shadow-lg backdrop-blur-sm">
+            <CardContent className="p-0">
+              <div
+                className="grid bg-purple-900/50 rounded-md overflow-hidden"
+                style={{
+                  gridTemplateColumns: `repeat(${BOARD_WIDTH}, 1fr)`,
+                  width: `${BOARD_WIDTH * 24}px`,
+                  height: `${BOARD_HEIGHT * 24}px`,
+                  border: "1px solid rgba(168, 85, 247, 0.2)",
+                }}
+              >
+                {board.map((row, y) =>
+                  row.map((_, x) => (
+                    <AnimatePresence key={`${y}-${x}`}>
+                      <motion.div
+                        initial={false}
+                        animate={{
+                          opacity: completedRows.includes(y) ? 0 : 1,
+                          scale: completedRows.includes(y) ? 1.1 : 1,
+                        }}
+                        transition={{ duration: 0.3 }}
+                        className={`w-6 h-6 ${renderCell(x, y) || "bg-purple-950/80"}`}
+                        style={{ border: "1px solid rgba(168, 85, 247, 0.1)" }}
+                      />
+                    </AnimatePresence>
+                  )),
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        </motion.div>
+
+        {/* Right side - Controls */}
+        <motion.div
+          className="flex flex-col gap-4 order-3"
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.4, duration: 0.6 }}
+        >
+          <div className="bg-purple-950/40 border border-purple-500/30 rounded-lg p-4 backdrop-blur-sm">
             <h3 className="text-lg font-medium text-purple-200 mb-3 tracking-wider">CONTROLS</h3>
             <div className="grid grid-cols-3 gap-2 text-center">
               <div></div>
-              <Button variant="ghost" size="icon" className="bg-purple-900/50 text-purple-300">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="bg-purple-900/50 text-purple-300 hover:bg-purple-800/50"
+                onClick={rotate}
+              >
                 <ArrowUp className="h-5 w-5" />
               </Button>
               <div></div>
-              <Button variant="ghost" size="icon" className="bg-purple-900/50 text-purple-300">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="bg-purple-900/50 text-purple-300 hover:bg-purple-800/50"
+                onClick={moveLeft}
+              >
                 <ArrowLeft className="h-5 w-5" />
               </Button>
-              <Button variant="ghost" size="icon" className="bg-purple-900/50 text-purple-300">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="bg-purple-900/50 text-purple-300 hover:bg-purple-800/50"
+                onTouchStart={handleTouchStartDown}
+                onTouchEnd={handleTouchEndDown}
+                onMouseDown={handleTouchStartDown}
+                onMouseUp={handleTouchEndDown}
+                onMouseLeave={handleTouchEndDown}
+              >
                 <ArrowDown className="h-5 w-5" />
               </Button>
-              <Button variant="ghost" size="icon" className="bg-purple-900/50 text-purple-300">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="bg-purple-900/50 text-purple-300 hover:bg-purple-800/50"
+                onClick={moveRight}
+              >
                 <ArrowRight className="h-5 w-5" />
               </Button>
             </div>
             <div className="mt-3 text-sm text-purple-300/70">
               <p>ROTATE: UP ARROW</p>
               <p>MOVE: LEFT/RIGHT ARROWS</p>
-              <p>SPEED UP: DOWN ARROW</p>
+              <p>SOFT DROP: HOLD DOWN ARROW</p>
+              <p>HARD DROP: SPACE BAR</p>
             </div>
           </div>
         </motion.div>
