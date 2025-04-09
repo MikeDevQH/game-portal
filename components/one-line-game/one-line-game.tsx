@@ -16,23 +16,19 @@ import { Brain } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { motion } from "framer-motion";
 
-// ─── NUEVO: Definir el tipo de dificultad y progreso por dificultad ─────────
-type Difficulty = "easy" | "medium" | "hard" | "expert";
-type Progress = { [key in Difficulty]: number[] };
-const defaultProgress: Progress = {
-  easy: [],
-  medium: [],
-  hard: [],
-  expert: [],
-};
-// ───────────────────────────────────────────────────────────────────────────────
+// Get difficulty from levelsByDifficulty
+export type Difficulty = keyof typeof levelsByDifficulty;
+const difficulties = Object.keys(levelsByDifficulty) as Difficulty[];
+// Initialize progress dynamically based on the categories defined in levels.ts
+const initialProgress = difficulties.reduce((acc, diff) => {
+  acc[diff] = [];
+  return acc;
+}, {} as Record<Difficulty, number[]>);
 
 export default function OneLineGame() {
   const [current, setCurrent] = useState(0);
   const [difficulty, setDifficulty] = useState<Difficulty>("easy");
-  // ─── MODIFICADO: Usar un objeto de progreso en lugar de un arreglo simple ───
-  const [progress, setProgress] = useState<Progress>(defaultProgress);
-  // ─────────────────────────────────────────────────────────────────────────────
+  const [progress, setProgress] = useState<Record<Difficulty, number[]>>(initialProgress);
 
   const [path, setPath] = useState<Edge[]>([]);
   const [drawing, setDrawing] = useState(false);
@@ -49,7 +45,6 @@ export default function OneLineGame() {
   const points = level.points;
   const edges = level.edges;
 
-  // Función simplificada para verificar si se ha completado el nivel
   const isLevelCompleted = () => {
     if (path.length === 0) return false;
     const traversedEdges = new Set<string>();
@@ -89,7 +84,6 @@ export default function OneLineGame() {
     );
   };
 
-  // Función para iniciar el dibujo desde cualquier punto
   const handleStart = (point: Point) => {
     if (!drawing) {
       setPath([]);
@@ -98,12 +92,11 @@ export default function OneLineGame() {
     }
   };
 
-  // ─── MODIFICADO: Verificar si el nivel se completó y actualizar progreso por dificultad ─────────
+  // Update progress when a level is completed
   useEffect(() => {
     if (path.length > 0 && isLevelCompleted()) {
       setTimeout(() => {
         setShowModal(true);
-        // Si el nivel no está ya registrado en el progreso de la dificultad actual, se agrega.
         setProgress((prev) => {
           const currentProgress = prev[difficulty];
           if (!currentProgress.includes(current)) {
@@ -117,7 +110,6 @@ export default function OneLineGame() {
       }, 300);
     }
   }, [path, current, difficulty]);
-  // ───────────────────────────────────────────────────────────────────────────────────────────────
 
   useEffect(() => {
     const handleMove = (e: MouseEvent) => {
@@ -179,7 +171,7 @@ export default function OneLineGame() {
     if (current + 1 < currentLevels.length) {
       setCurrent((prev) => prev + 1);
     } else {
-      const order: Difficulty[] = ["easy", "medium", "hard", "expert"];
+      const order = difficulties;
       const currentIndex = order.indexOf(difficulty);
       if (currentIndex < order.length - 1) {
         setDifficulty(order[currentIndex + 1]);
@@ -273,7 +265,6 @@ export default function OneLineGame() {
           </div>
         </Card>
 
-        {/* ─── MODIFICADO: Se pasa el objeto completo de progreso ───── */}
         <LevelSelector
           current={current}
           difficulty={difficulty}

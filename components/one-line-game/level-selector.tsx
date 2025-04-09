@@ -6,8 +6,10 @@ import { Card } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { levelsByDifficulty } from "@/lib/one-line/level";
 import { Lock } from "lucide-react";
+import type { Difficulty } from "@/lib/one-line/level";
 
-type Difficulty = "easy" | "medium" | "hard" | "expert";
+// Get difficulties from levelsByDifficulty
+const difficulties = Object.keys(levelsByDifficulty) as Difficulty[];
 
 type Progress = {
   [key in Difficulty]: number[];
@@ -32,52 +34,43 @@ export default function LevelSelector({
 }: LevelSelectorProps) {
   const currentLevels = levelsByDifficulty[difficulty];
   const completedLevels = progress?.[difficulty] ?? [];
-
-  // Nuevo estado para abrir el modal de selección de dificultad
   const [isDiffModalOpen, setIsDiffModalOpen] = useState(false);
 
-  // Función que renderiza los botones de dificultad en el modal
+  // Render difficulty options
   const renderDifficultyOptions = () => {
     return (
       <div className="flex flex-col gap-2 p-4">
-        {(["easy", "medium", "hard", "expert"] as const).map(
-          (diff, index, arr) => {
-            let isUnlocked = false;
-            if (diff === "easy") {
-              isUnlocked = true;
-            } else {
-              const prevDiff = arr[index - 1];
-              const levelsInPrev = levelsByDifficulty[prevDiff].length;
-              const completedInPrev = (progress?.[prevDiff] ?? []).length;
-              isUnlocked = completedInPrev === levelsInPrev;
-            }
-            return (
-              <Button
-                key={diff}
-                onClick={() => {
-                  if (isUnlocked) {
-                    onDifficultyChange(diff);
-                    setIsDiffModalOpen(false);
-                  }
-                }}
-                disabled={!isUnlocked}
-                className={`text-xs px-3 py-1 rounded-full ${
-                  difficulty === diff
-                    ? "bg-indigo-600 text-white"
-                    : "bg-indigo-900/50 text-indigo-300 hover:bg-indigo-800/60"
-                }`}
-              >
-                {diff.toUpperCase()}
-              </Button>
-            );
+        {difficulties.map((diff, index) => {
+          let isUnlocked = false;
+          if (index === 0) {
+            isUnlocked = true;
+          } else {
+            // Check if the previous difficulty is completed
+            const prevDiff = difficulties[index - 1];
+            const levelsInPrev = levelsByDifficulty[prevDiff].length;
+            const completedInPrev = (progress?.[prevDiff] ?? []).length;
+            isUnlocked = completedInPrev === levelsInPrev;
           }
-        )}
-        <Button
-          onClick={() => setIsDiffModalOpen(false)}
-          className="text-xs px-3 py-1 rounded-full bg-gray-700 text-white hover:bg-gray-600"
-        >
-          Cancelar
-        </Button>
+          return (
+            <Button
+              key={diff}
+              onClick={() => {
+                if (isUnlocked) {
+                  onDifficultyChange(diff);
+                  setIsDiffModalOpen(false);
+                }
+              }}
+              disabled={!isUnlocked}
+              className={`text-xs px-3 py-1 rounded-full ${
+                difficulty === diff
+                  ? "bg-indigo-600 text-white"
+                  : "bg-indigo-900/50 text-indigo-300 hover:bg-indigo-800/60"
+              }`}
+            >
+              {diff.toUpperCase()}
+            </Button>
+          );
+        })}
       </div>
     );
   };
@@ -94,17 +87,17 @@ export default function LevelSelector({
           LEVEL SELECT
         </h3>
 
-        {/* BOTÓN PARA CAMBIAR DIFICULTAD */}
+        {/* Category selector button */}
         <div className="mb-3 flex justify-center">
           <Button
             onClick={() => setIsDiffModalOpen(true)}
             className="text-xs px-3 py-1 rounded-full bg-indigo-700 text-white hover:bg-indigo-800"
           >
-            {`Dificultad: ${difficulty.toUpperCase()}`}
+            {`Categoría: ${difficulty.toUpperCase()}`}
           </Button>
         </div>
 
-        {/* Modal de selección de dificultad */}
+        {/* Category selection modal */}
         {isDiffModalOpen && (
           <div
             className="fixed inset-0 flex items-center justify-center bg-black/50 z-50"
@@ -119,15 +112,13 @@ export default function LevelSelector({
           </div>
         )}
 
-        {/* BOTONES DE NIVEL */}
+        {/* Level buttons */}
         <div className="grid grid-cols-4 gap-2">
           {currentLevels.map((_, index) => {
             const isCompleted = completedLevels.includes(index);
-            // Desbloqueo: primer nivel o el anterior está completado.
             const isUnlocked = index === 0 || completedLevels.includes(index - 1);
             const isClickable = isUnlocked || isCompleted;
             const isLocked = !isUnlocked;
-            // Agregar borde luminoso si es el nivel actual, está desbloqueado y aún no se completó.
             const glow = current === index && isUnlocked && !isCompleted;
 
             return (
@@ -140,11 +131,13 @@ export default function LevelSelector({
                 }}
                 disabled={!isClickable}
                 className={`w-10 h-10 p-0 flex items-center justify-center relative 
-                  ${current === index
-                    ? "bg-indigo-600 hover:bg-indigo-700 text-white"
-                    : isClickable
-                    ? "bg-indigo-900/50 border-indigo-500/30 text-indigo-300 hover:bg-indigo-800/60"
-                    : "bg-gray-800 border-gray-600 text-gray-500 cursor-not-allowed"}
+                  ${
+                    current === index
+                      ? "bg-indigo-600 hover:bg-indigo-700 text-white"
+                      : isClickable
+                      ? "bg-indigo-900/50 border-indigo-500/30 text-indigo-300 hover:bg-indigo-800/60"
+                      : "bg-gray-800 border-gray-600 text-gray-500 cursor-not-allowed"
+                  }
                   ${glow ? "border-2 border-indigo-400 shadow-[0_0_10px_2px_rgba(99,102,241,0.7)]" : ""}
                 `}
               >
