@@ -1,0 +1,413 @@
+import type { Edge, Point } from "@/utils/one-line/one-line-utils";
+
+type Level = {
+  name: string;
+  points: Point[];
+  edges: Edge[];
+  hint: string;
+};
+
+type Difficulty = "easy" | "medium" | "hard" | "expert";
+
+export const levelsByDifficulty: Record<Difficulty, Level[]> = {
+  easy: [
+    {
+      name: "Triangle",
+      hint: "Conecta tres puntos en un ciclo continuo.",
+      points: [
+        { id: "A", x: 200, y: 100 },
+        { id: "B", x: 300, y: 300 },
+        { id: "C", x: 100, y: 300 },
+      ],
+      edges: [
+        { from: "A", to: "B" },
+        { from: "B", to: "C" },
+        { from: "C", to: "A" },
+      ],
+    },
+    {
+      name: "Square",
+      hint: "Dibuja un cuadrado en un solo trazo.",
+      points: [
+        { id: "A", x: 100, y: 100 },
+        { id: "B", x: 300, y: 100 },
+        { id: "C", x: 300, y: 300 },
+        { id: "D", x: 100, y: 300 },
+      ],
+      edges: [
+        { from: "A", to: "B" },
+        { from: "B", to: "C" },
+        { from: "C", to: "D" },
+        { from: "D", to: "A" },
+      ],
+    },
+    {
+      name: "Pentagon",
+      hint: "Conecta los cinco puntos para formar un pentágono.",
+      points: [
+        { id: "A", x: 200, y: 100 },
+        { id: "B", x: 300, y: 200 },
+        { id: "C", x: 260, y: 300 },
+        { id: "D", x: 140, y: 300 },
+        { id: "E", x: 100, y: 200 },
+      ],
+      edges: [
+        { from: "A", to: "B" },
+        { from: "B", to: "C" },
+        { from: "C", to: "D" },
+        { from: "D", to: "E" },
+        { from: "E", to: "A" },
+      ],
+    },
+    {
+      name: "Hexagon",
+      hint: "Dibuja un hexágono perfecto en un solo trazo.",
+      points: [
+        { id: "A", x: 300, y: 200 },
+        { id: "B", x: 250, y: 286 },
+        { id: "C", x: 150, y: 286 },
+        { id: "D", x: 100, y: 200 },
+        { id: "E", x: 150, y: 114 },
+        { id: "F", x: 250, y: 114 },
+      ],
+      edges: [
+        { from: "A", to: "B" },
+        { from: "B", to: "C" },
+        { from: "C", to: "D" },
+        { from: "D", to: "E" },
+        { from: "E", to: "F" },
+        { from: "F", to: "A" },
+      ],
+    },
+    {
+      name: "Heptagon",
+      hint: "Dibuja un heptágono (7 lados) en un solo trazo.",
+      points: [
+        { id: "A", x: 300, y: 200 },
+        { id: "B", x: 263, y: 278 },
+        { id: "C", x: 178, y: 298 },
+        { id: "D", x: 110, y: 244 },
+        { id: "E", x: 110, y: 157 },
+        { id: "F", x: 178, y: 103 },
+        { id: "G", x: 263, y: 122 },
+      ],
+      edges: [
+        { from: "A", to: "B" },
+        { from: "B", to: "C" },
+        { from: "C", to: "D" },
+        { from: "D", to: "E" },
+        { from: "E", to: "F" },
+        { from: "F", to: "G" },
+        { from: "G", to: "A" },
+      ],
+    },
+    {
+      name: "Octagon",
+      hint: "Dibuja un octágono sin levantar el lápiz.",
+      points: [
+        { id: "A", x: 300, y: 200 },
+        { id: "B", x: 271, y: 271 },
+        { id: "C", x: 200, y: 300 },
+        { id: "D", x: 129, y: 271 },
+        { id: "E", x: 100, y: 200 },
+        { id: "F", x: 129, y: 129 },
+        { id: "G", x: 200, y: 100 },
+        { id: "H", x: 271, y: 129 },
+      ],
+      edges: [
+        { from: "A", to: "B" },
+        { from: "B", to: "C" },
+        { from: "C", to: "D" },
+        { from: "D", to: "E" },
+        { from: "E", to: "F" },
+        { from: "F", to: "G" },
+        { from: "G", to: "H" },
+        { from: "H", to: "A" },
+      ],
+    },
+    {
+      name: "Pentagram",
+      hint: "Dibuja una estrella de cinco puntas de un solo trazo.",
+      points: [
+        { id: "A", x: 200, y: 100 },
+        { id: "B", x: 295, y: 169 },
+        { id: "C", x: 259, y: 281 },
+        { id: "D", x: 141, y: 281 },
+        { id: "E", x: 105, y: 169 },
+      ],
+      edges: [
+        { from: "A", to: "C" },
+        { from: "C", to: "E" },
+        { from: "E", to: "B" },
+        { from: "B", to: "D" },
+        { from: "D", to: "A" },
+      ],
+    },
+    {
+      name: "Diamond",
+      hint: "Dibuja un diamante en un solo trazo.",
+      points: [
+        { id: "A", x: 200, y: 100 },
+        { id: "B", x: 300, y: 200 },
+        { id: "C", x: 200, y: 300 },
+        { id: "D", x: 100, y: 200 },
+      ],
+      edges: [
+        { from: "A", to: "B" },
+        { from: "B", to: "C" },
+        { from: "C", to: "D" },
+        { from: "D", to: "A" },
+      ],
+    },
+    {
+      name: "Figure Eight",
+      hint: "Resuelve el '8' dibujándolo en un solo trazo.",
+      points: [
+        { id: "A", x: 200, y: 200 },
+        { id: "B", x: 300, y: 150 },
+        { id: "C", x: 200, y: 100 },
+        { id: "D", x: 300, y: 250 },
+        { id: "E", x: 200, y: 300 },
+      ],
+      edges: [
+        { from: "A", to: "B" },
+        { from: "B", to: "C" },
+        { from: "C", to: "A" },
+        { from: "A", to: "D" },
+        { from: "D", to: "E" },
+        { from: "E", to: "A" },
+      ],
+    },
+    {
+      name: "Zigzag",
+      hint: "Dibuja la figura en forma de zigzag en un solo trazo.",
+      points: [
+        { id: "A", x: 100, y: 200 },
+        { id: "B", x: 150, y: 150 },
+        { id: "C", x: 200, y: 200 },
+        { id: "D", x: 250, y: 150 },
+        { id: "E", x: 300, y: 200 },
+        { id: "F", x: 250, y: 250 },
+      ],
+      edges: [
+        { from: "A", to: "B" },
+        { from: "B", to: "C" },
+        { from: "C", to: "D" },
+        { from: "D", to: "E" },
+        { from: "E", to: "F" },
+        { from: "F", to: "A" },
+      ],
+    },
+    {
+      name: "Double Square",
+      hint: "Two squares sharing an edge. Notice how the shared side balances the Eulerian trail.",
+      points: [
+        { id: "A", x: 100, y: 100 },
+        { id: "B", x: 200, y: 100 },
+        { id: "C", x: 200, y: 200 },
+        { id: "D", x: 100, y: 200 },
+        { id: "E", x: 300, y: 200 },
+        { id: "F", x: 300, y: 100 },
+      ],
+      edges: [
+        { from: "A", to: "B" },
+        { from: "B", to: "C" },
+        { from: "C", to: "D" },
+        { from: "D", to: "A" },
+        { from: "C", to: "E" },
+        { from: "E", to: "F" },
+        { from: "F", to: "B" },
+      ],
+    },
+    {
+      name: "Cross",
+      hint: "A central point with an outer cycle plus an extra diagonal makes it Eulerian.",
+      points: [
+        { id: "O", x: 200, y: 200 },
+        { id: "N", x: 200, y: 100 },
+        { id: "E", x: 300, y: 200 },
+        { id: "S", x: 200, y: 300 },
+        { id: "W", x: 100, y: 200 },
+      ],
+      edges: [
+        { from: "E", to: "S" },
+        { from: "S", to: "W" },
+        { from: "W", to: "N" },
+        { from: "O", to: "N" },
+        { from: "O", to: "E" },
+        { from: "O", to: "S" },
+        { from: "O", to: "W" },
+      ],
+    },
+    {
+      name: "Trapezoid",
+      hint: "An irregular quadrilateral that remains Eulerian. Try it in one stroke!",
+      points: [
+        { id: "A", x: 150, y: 100 },
+        { id: "B", x: 250, y: 100 },
+        { id: "C", x: 300, y: 200 },
+        { id: "D", x: 100, y: 200 },
+      ],
+      edges: [
+        { from: "A", to: "B" },
+        { from: "B", to: "C" },
+        { from: "C", to: "D" },
+        { from: "D", to: "A" },
+      ],
+    },
+  ],
+  
+
+  //=================================================================================================//
+  medium: [
+    {
+      name: "Hexagon",
+      hint: "ESTO ES UNA PISTA",
+      points: [
+        { id: "A", x: 200, y: 100 },
+        { id: "B", x: 300, y: 150 },
+        { id: "C", x: 300, y: 250 },
+        { id: "D", x: 200, y: 300 },
+        { id: "E", x: 100, y: 250 },
+        { id: "F", x: 100, y: 150 },
+      ],
+      edges: [
+        { from: "A", to: "B" },
+        { from: "B", to: "C" },
+        { from: "C", to: "D" },
+        { from: "D", to: "E" },
+        { from: "E", to: "F" },
+        { from: "F", to: "A" },
+      ],
+    },
+    {
+      name: "Star",
+      hint: "ESTO ES UNA PISTA",
+      points: [
+        { id: "A", x: 200, y: 100 },
+        { id: "B", x: 250, y: 150 },
+        { id: "C", x: 300, y: 150 },
+        { id: "D", x: 260, y: 200 },
+        { id: "E", x: 280, y: 250 },
+        { id: "F", x: 200, y: 220 },
+        { id: "G", x: 120, y: 250 },
+        { id: "H", x: 140, y: 200 },
+        { id: "I", x: 100, y: 150 },
+        { id: "J", x: 150, y: 150 },
+      ],
+      edges: [
+        { from: "A", to: "B" },
+        { from: "B", to: "C" },
+        { from: "C", to: "D" },
+        { from: "D", to: "E" },
+        { from: "E", to: "F" },
+        { from: "F", to: "G" },
+        { from: "G", to: "H" },
+        { from: "H", to: "I" },
+        { from: "I", to: "J" },
+        { from: "J", to: "A" },
+      ],
+    },
+    {
+      name: "House",
+      hint: "ESTO ES UNA PISTA",
+      points: [
+        { id: "A", x: 200, y: 100 },
+        { id: "B", x: 300, y: 200 },
+        { id: "C", x: 300, y: 300 },
+        { id: "D", x: 100, y: 300 },
+        { id: "E", x: 100, y: 200 },
+        { id: "F", x: 200, y: 200 },
+      ],
+      edges: [
+        { from: "A", to: "B" },
+        { from: "B", to: "C" },
+        { from: "C", to: "D" },
+        { from: "D", to: "E" },
+        { from: "E", to: "A" },
+        { from: "E", to: "F" },
+        { from: "F", to: "B" },
+      ],
+    },
+  ],
+  hard: [
+    {
+      name: "Hourglass",
+      hint: "ESTO ES UNA PISTA",
+      points: [
+        { id: "A", x: 100, y: 100 },
+        { id: "B", x: 300, y: 100 },
+        { id: "C", x: 200, y: 200 },
+        { id: "D", x: 300, y: 300 },
+        { id: "E", x: 100, y: 300 },
+      ],
+      edges: [
+        { from: "A", to: "B" },
+        { from: "B", to: "C" },
+        { from: "C", to: "A" },
+        { from: "C", to: "D" },
+        { from: "D", to: "E" },
+        { from: "E", to: "C" },
+      ],
+    },
+    {
+      name: "Butterfly",
+      hint: "ESTO ES UNA PISTA",
+      points: [
+        { id: "A", x: 200, y: 200 },
+        { id: "B", x: 100, y: 100 },
+        { id: "C", x: 300, y: 100 },
+        { id: "D", x: 100, y: 300 },
+        { id: "E", x: 300, y: 300 },
+      ],
+      edges: [
+        { from: "A", to: "B" },
+        { from: "B", to: "C" },
+        { from: "C", to: "A" },
+        { from: "A", to: "D" },
+        { from: "D", to: "E" },
+        { from: "E", to: "A" },
+      ],
+    },
+  ],
+  expert: [
+    {
+      name: "Hourglass",
+      hint: "ESTO ES UNA PISTA",
+      points: [
+        { id: "A", x: 100, y: 100 },
+        { id: "B", x: 300, y: 100 },
+        { id: "C", x: 200, y: 200 },
+        { id: "D", x: 300, y: 300 },
+        { id: "E", x: 100, y: 300 },
+      ],
+      edges: [
+        { from: "A", to: "B" },
+        { from: "B", to: "C" },
+        { from: "C", to: "A" },
+        { from: "C", to: "D" },
+        { from: "D", to: "E" },
+        { from: "E", to: "C" },
+      ],
+    },
+    {
+      name: "Butterfly",
+      hint: "ESTO ES UNA PISTA",
+      points: [
+        { id: "A", x: 200, y: 200 },
+        { id: "B", x: 100, y: 100 },
+        { id: "C", x: 300, y: 100 },
+        { id: "D", x: 100, y: 300 },
+        { id: "E", x: 300, y: 300 },
+      ],
+      edges: [
+        { from: "A", to: "B" },
+        { from: "B", to: "C" },
+        { from: "C", to: "A" },
+        { from: "A", to: "D" },
+        { from: "D", to: "E" },
+        { from: "E", to: "A" },
+      ],
+    },
+  ]
+};
