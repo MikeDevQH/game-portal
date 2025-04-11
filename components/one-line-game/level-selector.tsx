@@ -8,7 +8,6 @@ import { levelsByPacks } from "@/lib/one-line/level";
 import { Lock } from "lucide-react";
 import type { Packs } from "@/lib/one-line/level";
 
-// Get packs from levelsByPacks
 const packs = Object.keys(levelsByPacks) as Packs[];
 
 type Progress = {
@@ -34,45 +33,13 @@ export default function LevelSelector({
 }: LevelSelectorProps) {
   const currentLevels = levelsByPacks[pack];
   const completedLevels = progress?.[pack] ?? [];
-  const [isPckModalOpen, setIsPckModalOpen] = useState(false);
 
-  // Render pack options
-  const renderPackOptions = () => {
-    return (
-      <div className="flex flex-col gap-2 p-4">
-        {packs.map((pck, index) => {
-          let isUnlocked = false;
-          if (index === 0) {
-            isUnlocked = true;
-          } else {
-            // Check if the previous pack is completed
-            const prevPck = packs[index - 1];
-            const levelsInPrev = levelsByPacks[prevPck].length;
-            const completedInPrev = (progress?.[prevPck] ?? []).length;
-            isUnlocked = completedInPrev === levelsInPrev;
-          }
-          return (
-            <Button
-              key={pck}
-              onClick={() => {
-                if (isUnlocked) {
-                  onPackChange(pck);
-                  setIsPckModalOpen(false);
-                }
-              }}
-              disabled={!isUnlocked}
-              className={`text-xs px-3 py-1 rounded-full ${
-                pack === pck
-                  ? "bg-indigo-600 text-white"
-                  : "bg-indigo-900/50 text-indigo-300 hover:bg-indigo-800/60"
-              }`}
-            >
-              {pck.toUpperCase()}
-            </Button>
-          );
-        })}
-      </div>
-    );
+  const isPackUnlocked = (pck: Packs, index: number) => {
+    if (index === 0) return true;
+    const prevPack = packs[index - 1];
+    const levelsInPrev = levelsByPacks[prevPack].length;
+    const completedInPrev = (progress?.[prevPack] ?? []).length;
+    return completedInPrev === levelsInPrev;
   };
 
   return (
@@ -87,36 +54,35 @@ export default function LevelSelector({
           LEVEL SELECT
         </h3>
 
-        {/* Category selector button */}
-        <div className="mb-3 flex justify-center">
-          <Button
-            onClick={() => setIsPckModalOpen(true)}
-            className="text-xs px-3 py-1 rounded-full bg-indigo-700 text-white hover:bg-indigo-800"
-          >
-            {pack.toUpperCase()}
-          </Button>
+        {/* Visible pack selector */}
+        <div className="flex flex-wrap justify-center gap-2 mb-3">
+          {packs.map((pck, index) => {
+            const unlocked = isPackUnlocked(pck, index);
+            return (
+              <Button
+                key={pck}
+                onClick={() => unlocked && onPackChange(pck)}
+                disabled={!unlocked}
+                className={`text-xs px-3 py-1 rounded-full transition ${
+                  pack === pck
+                    ? " font-bold text-indigo-200 bg-indigo-900/20 hover:bg-indigo-900/20 hover:scale-110 transition-all duration-300"
+                    : unlocked
+                    ? "bg-indigo-900/50 text-indigo-300 hover:bg-indigo-800/60"
+                    : "bg-gray-800 text-gray-500 cursor-not-allowed"
+                }`}
+              >
+                {pck.toUpperCase()}
+              </Button>
+            );
+          })}
         </div>
-
-        {/* Category selection modal */}
-        {isPckModalOpen && (
-          <div
-            className="fixed inset-0 flex items-center justify-center bg-black/50 z-50"
-            onClick={() => setIsPckModalOpen(false)}
-          >
-            <div
-              className="bg-indigo-900 rounded-md shadow-lg"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {renderPackOptions()}
-            </div>
-          </div>
-        )}
 
         {/* Level buttons */}
         <div className="grid grid-cols-4 gap-2">
           {currentLevels.map((_, index) => {
             const isCompleted = completedLevels.includes(index);
-            const isUnlocked = index === 0 || completedLevels.includes(index - 1);
+            const isUnlocked =
+              index === 0 || completedLevels.includes(index - 1);
             const isClickable = isUnlocked || isCompleted;
             const isLocked = !isUnlocked;
             const glow = current === index && isUnlocked && !isCompleted;
@@ -138,14 +104,16 @@ export default function LevelSelector({
                       ? "bg-indigo-900/50 border-indigo-500/30 text-indigo-300 hover:bg-indigo-800/60"
                       : "bg-gray-800 border-gray-600 text-gray-500 cursor-not-allowed"
                   }
-                  ${glow ? "border-2 border-indigo-400 shadow-[0_0_10px_2px_rgba(99,102,241,0.7)]" : ""}
+                  ${
+                    glow
+                      ? "border-2 border-indigo-400 shadow-[0_0_10px_2px_rgba(99,102,241,0.7)]"
+                      : ""
+                  }
                 `}
               >
                 <span>{index + 1}</span>
-                {isLocked && (
-                  <Lock className="w-4 h-4 text-gray-500" />
-                )}               
-               </Button>
+                {isLocked && <Lock className="w-4 h-4 text-gray-500" />}
+              </Button>
             );
           })}
         </div>
