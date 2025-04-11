@@ -8,13 +8,12 @@ interface GameControlsProps {
   onReset: () => void
   onShowHelp: () => void
   hint: string
-  difficulty: string
+  pack: string
   levelName: string
 }
 
-
-
-export default function GameControls({ onReset, onShowHelp, hint, difficulty, levelName }: GameControlsProps) {
+// Game controls component
+export default function GameControls({ onReset, onShowHelp, hint, pack, levelName }: GameControlsProps) {
   const showHint = () => {
     toast.info(hint || "Try to trace all lines without lifting your cursor.")
   }

@@ -4,70 +4,70 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { motion } from "framer-motion";
-import { levelsByDifficulty } from "@/lib/one-line/level";
+import { levelsByPacks } from "@/lib/one-line/level";
 import { Lock } from "lucide-react";
-import type { Difficulty } from "@/lib/one-line/level";
+import type { Packs } from "@/lib/one-line/level";
 
-// Get difficulties from levelsByDifficulty
-const difficulties = Object.keys(levelsByDifficulty) as Difficulty[];
+// Get packs from levelsByPacks
+const packs = Object.keys(levelsByPacks) as Packs[];
 
 type Progress = {
-  [key in Difficulty]: number[];
+  [key in Packs]: number[];
 };
 
 interface LevelSelectorProps {
   current: number;
-  difficulty: Difficulty;
+  pack: Packs;
   progress: Progress;
   onLevelSelect: (levelIndex: number) => void;
-  onDifficultyChange: (difficulty: Difficulty) => void;
+  onPackChange: (pack: Packs) => void;
   showHint: () => void;
 }
 
 export default function LevelSelector({
   current,
-  difficulty,
+  pack,
   progress,
   onLevelSelect,
-  onDifficultyChange,
+  onPackChange,
   showHint,
 }: LevelSelectorProps) {
-  const currentLevels = levelsByDifficulty[difficulty];
-  const completedLevels = progress?.[difficulty] ?? [];
-  const [isDiffModalOpen, setIsDiffModalOpen] = useState(false);
+  const currentLevels = levelsByPacks[pack];
+  const completedLevels = progress?.[pack] ?? [];
+  const [isPckModalOpen, setIsPckModalOpen] = useState(false);
 
-  // Render difficulty options
-  const renderDifficultyOptions = () => {
+  // Render pack options
+  const renderPackOptions = () => {
     return (
       <div className="flex flex-col gap-2 p-4">
-        {difficulties.map((diff, index) => {
+        {packs.map((pck, index) => {
           let isUnlocked = false;
           if (index === 0) {
             isUnlocked = true;
           } else {
-            // Check if the previous difficulty is completed
-            const prevDiff = difficulties[index - 1];
-            const levelsInPrev = levelsByDifficulty[prevDiff].length;
-            const completedInPrev = (progress?.[prevDiff] ?? []).length;
+            // Check if the previous pack is completed
+            const prevPck = packs[index - 1];
+            const levelsInPrev = levelsByPacks[prevPck].length;
+            const completedInPrev = (progress?.[prevPck] ?? []).length;
             isUnlocked = completedInPrev === levelsInPrev;
           }
           return (
             <Button
-              key={diff}
+              key={pck}
               onClick={() => {
                 if (isUnlocked) {
-                  onDifficultyChange(diff);
-                  setIsDiffModalOpen(false);
+                  onPackChange(pck);
+                  setIsPckModalOpen(false);
                 }
               }}
               disabled={!isUnlocked}
               className={`text-xs px-3 py-1 rounded-full ${
-                difficulty === diff
+                pack === pck
                   ? "bg-indigo-600 text-white"
                   : "bg-indigo-900/50 text-indigo-300 hover:bg-indigo-800/60"
               }`}
             >
-              {diff.toUpperCase()}
+              {pck.toUpperCase()}
             </Button>
           );
         })}
@@ -90,24 +90,24 @@ export default function LevelSelector({
         {/* Category selector button */}
         <div className="mb-3 flex justify-center">
           <Button
-            onClick={() => setIsDiffModalOpen(true)}
+            onClick={() => setIsPckModalOpen(true)}
             className="text-xs px-3 py-1 rounded-full bg-indigo-700 text-white hover:bg-indigo-800"
           >
-            {`Categoría: ${difficulty.toUpperCase()}`}
+            {pack.toUpperCase()}
           </Button>
         </div>
 
         {/* Category selection modal */}
-        {isDiffModalOpen && (
+        {isPckModalOpen && (
           <div
             className="fixed inset-0 flex items-center justify-center bg-black/50 z-50"
-            onClick={() => setIsDiffModalOpen(false)}
+            onClick={() => setIsPckModalOpen(false)}
           >
             <div
               className="bg-indigo-900 rounded-md shadow-lg"
               onClick={(e) => e.stopPropagation()}
             >
-              {renderDifficultyOptions()}
+              {renderPackOptions()}
             </div>
           </div>
         )}
@@ -141,11 +141,11 @@ export default function LevelSelector({
                   ${glow ? "border-2 border-indigo-400 shadow-[0_0_10px_2px_rgba(99,102,241,0.7)]" : ""}
                 `}
               >
-                <span className="z-10">{index + 1}</span>
+                <span>{index + 1}</span>
                 {isLocked && (
-                  <Lock className="absolute w-4 h-4 text-gray-500" />
-                )}
-              </Button>
+                  <Lock className="w-4 h-4 text-gray-500" />
+                )}               
+               </Button>
             );
           })}
         </div>

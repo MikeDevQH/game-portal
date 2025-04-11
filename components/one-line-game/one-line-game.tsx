@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { levelsByDifficulty } from "@/lib/one-line/level";
+import { levelsByPacks } from "@/lib/one-line/level";
 import {
   isSameEdge,
   type Point,
@@ -16,19 +16,19 @@ import { Brain } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { motion } from "framer-motion";
 
-// Get difficulty from levelsByDifficulty
-export type Difficulty = keyof typeof levelsByDifficulty;
-const difficulties = Object.keys(levelsByDifficulty) as Difficulty[];
+// Get pack from levelsByPacks
+export type Pack = keyof typeof levelsByPacks;
+const packs = Object.keys(levelsByPacks) as Pack[];
 // Initialize progress dynamically based on the categories defined in levels.ts
-const initialProgress = difficulties.reduce((acc, diff) => {
-  acc[diff] = [];
+const initialProgress = packs.reduce((acc, pck) => {
+  acc[pck] = [];
   return acc;
-}, {} as Record<Difficulty, number[]>);
+}, {} as Record<Pack, number[]>);
 
 export default function OneLineGame() {
   const [current, setCurrent] = useState(0);
-  const [difficulty, setDifficulty] = useState<Difficulty>("easy");
-  const [progress, setProgress] = useState<Record<Difficulty, number[]>>(initialProgress);
+  const [pack, setPack] = useState<Pack>("Pack 1");
+  const [progress, setProgress] = useState<Record<Pack, number[]>>(initialProgress);
 
   const [path, setPath] = useState<Edge[]>([]);
   const [drawing, setDrawing] = useState(false);
@@ -40,7 +40,7 @@ export default function OneLineGame() {
   const [showHelp, setShowHelp] = useState(false);
   const svgRef = useRef<SVGSVGElement>(null);
 
-  const currentLevels = levelsByDifficulty[difficulty];
+  const currentLevels = levelsByPacks[pack];
   const level = currentLevels[current];
   const points = level.points;
   const edges = level.edges;
@@ -98,18 +98,18 @@ export default function OneLineGame() {
       setTimeout(() => {
         setShowModal(true);
         setProgress((prev) => {
-          const currentProgress = prev[difficulty];
+          const currentProgress = prev[pack];
           if (!currentProgress.includes(current)) {
             return {
               ...prev,
-              [difficulty]: [...currentProgress, current].sort((a, b) => a - b),
+              [pack]: [...currentProgress, current].sort((a, b) => a - b),
             };
           }
           return prev;
         });
       }, 300);
     }
-  }, [path, current, difficulty]);
+  }, [path, current, pack]);
 
   useEffect(() => {
     const handleMove = (e: MouseEvent) => {
@@ -131,17 +131,18 @@ export default function OneLineGame() {
       }
     };
 
+    // Handle mouse up
     const handleUp = () => {
       if (drawing) {
         if (isLevelCompleted()) {
           setTimeout(() => {
             setShowModal(true);
             setProgress((prev) => {
-              const currentProgress = prev[difficulty];
+              const currentProgress = prev[pack];
               if (!currentProgress.includes(current)) {
                 return {
                   ...prev,
-                  [difficulty]: [...currentProgress, current].sort((a, b) => a - b),
+                  [pack]: [...currentProgress, current].sort((a, b) => a - b),
                 };
               }
               return prev;
@@ -156,14 +157,16 @@ export default function OneLineGame() {
       setTempLine(null);
     };
 
+    // Add event listeners
     window.addEventListener("mousemove", handleMove);
     window.addEventListener("mouseup", handleUp);
     return () => {
       window.removeEventListener("mousemove", handleMove);
       window.removeEventListener("mouseup", handleUp);
     };
-  }, [drawing, lastPoint, path, current, difficulty]);
+  }, [drawing, lastPoint, path, current, pack]);
 
+  // Handle next level
   const nextLevel = () => {
     setShowModal(false);
     setPath([]);
@@ -171,15 +174,16 @@ export default function OneLineGame() {
     if (current + 1 < currentLevels.length) {
       setCurrent((prev) => prev + 1);
     } else {
-      const order = difficulties;
-      const currentIndex = order.indexOf(difficulty);
+      const order = packs;
+      const currentIndex = order.indexOf(pack);
       if (currentIndex < order.length - 1) {
-        setDifficulty(order[currentIndex + 1]);
+        setPack(order[currentIndex + 1]);
         setCurrent(0);
       }
     }
   };
 
+  // Reset level
   const resetLevel = () => {
     setPath([]);
     setDrawing(false);
@@ -187,6 +191,7 @@ export default function OneLineGame() {
     setTempLine(null);
   };
 
+  // Go to specific level
   const goToLevel = (levelIndex: number) => {
     setCurrent(levelIndex);
     setPath([]);
@@ -195,8 +200,9 @@ export default function OneLineGame() {
     setTempLine(null);
   };
 
-  const changeDifficulty = (newDifficulty: Difficulty) => {
-    setDifficulty(newDifficulty);
+  // Change pack
+  const changePack = (newPack: Pack) => {
+    setPack(newPack);
     setCurrent(0);
     resetLevel();
   };
@@ -225,7 +231,7 @@ export default function OneLineGame() {
               </div>
               <GameControls
                 levelName={currentLevels[current].name}
-                difficulty={difficulty}
+                pack={pack}
                 onReset={resetLevel}
                 onShowHelp={() => setShowHelp(true)}
                 hint={
@@ -267,10 +273,10 @@ export default function OneLineGame() {
 
         <LevelSelector
           current={current}
-          difficulty={difficulty}
+          pack={pack}
           progress={progress}
           onLevelSelect={goToLevel}
-          onDifficultyChange={changeDifficulty}
+          onPackChange={changePack}
           showHint={() => {}}
         />
       </div>
