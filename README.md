@@ -12,6 +12,7 @@
   - 🔢 **Game 2048**
   - 🧱 **Block Placing**
   - 🐦 **Flappy Bird**
+  - 🎯 **One Line**
 - 🎨 Diseño responsivo con **Tailwind CSS**.
 - 🌙 Modo claro/oscuro (próximamente).
 - ⚡ Rápido y ligero gracias a **Next.js** y optimizaciones de rendimiento.
