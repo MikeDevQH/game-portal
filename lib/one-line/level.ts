@@ -13,6 +13,12 @@ export const levelsByPacks: Record<Packs, Level[]> = {
   //========= Levels are still in development – more coming soon!!! ===========//
 
   "Pack 1": [
+    //==================================================//
+     
+    
+
+    //==================================================//
+
     {
       name: "Triangle",
       hint: "Three points, one stroke.",
@@ -245,15 +251,12 @@ export const levelsByPacks: Record<Packs, Level[]> = {
         { from: "D", to: "F" },
       ],
     },
-    
   ],
-
-
 
   "Pack 2": [
     {
       name: "Hooked Route",
-      hint: "Looks like a question mark... what’s the path?",
+    hint: "Notice the hook; start at its end.",
       points: [
         { id: "A", x: 250, y: 30 },
         { id: "B", x: 380, y: 30 },
@@ -277,7 +280,7 @@ export const levelsByPacks: Record<Packs, Level[]> = {
     },
     {
       name: "Circuit",
-      hint: "Like a chip’s trace—precise and tight.",
+      hint: "Look at the upper corner and follow the outline.",
       points: [
         { id: "A", x: 50, y: 30 },
         { id: "B", x: 350, y: 30 },
@@ -307,5 +310,206 @@ export const levelsByPacks: Record<Packs, Level[]> = {
         { from: "J", to: "G" },
       ],
     },
+    {
+      name: "Enigmatic",
+      hint: "Focus on the frame’s vertex to begin.",
+      points: [
+        { id: "A", x: 20, y: 30 },
+        { id: "B", x: 380, y: 30 },
+        { id: "C", x: 380, y: 380 },
+        { id: "D", x: 20, y: 380 },
+        { id: "E", x: 200, y: 280 },
+        { id: "F", x: 200, y: 120 },
+      ],
+      edges: [
+        { from: "A", to: "B" },
+        { from: "A", to: "C" },
+        { from: "B", to: "C" },
+        { from: "B", to: "D" },
+        { from: "C", to: "D" },
+        { from: "D", to: "A" },
+        { from: "E", to: "D" },
+        { from: "E", to: "C" },
+        { from: "E", to: "F" },
+        { from: "F", to: "A" },
+        { from: "F", to: "B" },
+      ],
+    },
+    {
+      name: "Blueprint",
+      hint: "Begin at the edge that catches your eye.",
+      points: [
+        { id: "A", x: 40, y: 30 },
+        { id: "B", x: 360, y: 30 },
+        { id: "C", x: 40, y: 370 },
+        { id: "D", x: 360, y: 370 },
+        { id: "E", x: 360, y: 220 },
+        { id: "F", x: 40, y: 220 },
+        { id: "G", x: 200, y: 220 },
+        { id: "H", x: 200, y: 80 },
+      ],
+      edges: [
+        { from: "A", to: "H" },
+        { from: "A", to: "G" },
+        { from: "B", to: "G" },
+        { from: "B", to: "H" },
+        { from: "C", to: "G" },
+        { from: "C", to: "F" },
+        { from: "D", to: "G" },
+        { from: "D", to: "E" },
+        { from: "H", to: "F" },
+        { from: "H", to: "E" },
+      ],
+    },
+    {
+      name: "Core",
+      hint: "Let the center set your first stroke.",
+      points: [
+        { id: "A", x: 200, y: 50 },
+        { id: "B", x: 300, y: 350 },
+        { id: "C", x: 100, y: 350 },
+        { id: "D", x: 40, y: 180 },
+        { id: "E", x: 360, y: 180 },
+      ],
+      edges: [
+        { from: "A", to: "B" },
+        { from: "B", to: "C" },
+        { from: "B", to: "E" },
+        { from: "B", to: "D" },
+        { from: "C", to: "A" },
+        { from: "C", to: "D" },
+        { from: "C", to: "E" },
+      ],
+    },
+    {
+      name: "Diagonal",
+      hint: "Start where the slant is evident.",
+      points: [
+        { id: "A", x: 200, y: 20 },
+        { id: "B", x: 340, y: 340 },
+        { id: "C", x: 60, y: 340 },
+        { id: "D", x: 280, y: 200 },
+        { id: "E", x: 220, y: 340 },
+        { id: "F", x: 120, y: 200 },
+        { id: "G", x: 170, y: 270 },
+      ],
+      edges: [
+        { from: "A", to: "D" },
+        { from: "A", to: "F" },
+        { from: "B", to: "E" },
+        { from: "B", to: "D" },
+        { from: "F", to: "D" },
+        { from: "F", to: "C" },
+        { from: "E", to: "C" },
+        { from: "D", to: "G" },
+        { from: "D", to: "E" },
+        { from: "E", to: "G" },
+        { from: "F", to: "G" },
+      ],
+    },
+
+    {
+      name: "Symmetry",
+      hint: "Watch for the balancing point.",
+      points: [
+        { id: "A", x: 200, y: 20 },
+        { id: "B", x: 320, y: 300 },
+        { id: "C", x: 80, y: 300 },
+        { id: "D", x: 200, y: 380 },
+        { id: "E", x: 60, y: 100 },
+        { id: "F", x: 340, y: 100 },
+        { id: "G", x: 200, y: 220 },
+      ],
+      edges: [
+        { from: "A", to: "B" },
+        { from: "A", to: "E" },
+        { from: "A", to: "F" },
+        { from: "A", to: "C" },
+        { from: "B", to: "C" },
+        { from: "B", to: "F" },
+        { from: "B", to: "D" },
+        { from: "B", to: "G" },
+        { from: "C", to: "D" },
+        { from: "C", to: "E" },
+        { from: "C", to: "G" },
+      ],
+    },
+
+    {
+      name: "Alignment",
+      hint: "Start at a corner where lines converge.",
+      points: [
+        { id: "A", x: 150, y: 40 },
+        { id: "B", x: 310, y: 40 },
+        { id: "C", x: 150, y: 360 },
+        { id: "D", x: 310, y: 360 },
+        { id: "E", x: 290, y: 220 },
+        { id: "F", x: 210, y: 140 },
+        { id: "G", x: 50, y: 300 },
+        { id: "H", x: 230, y: 240 },
+      ],
+      edges: [
+        { from: "A", to: "B" },
+        { from: "B", to: "D" },
+        { from: "C", to: "A" },
+        { from: "C", to: "H" },
+        { from: "C", to: "E" },
+        { from: "C", to: "G" },
+        { from: "D", to: "C" },
+        { from: "D", to: "H" },
+        { from: "G", to: "F" },
+        { from: "E", to: "F" },
+      ],
+    },
+
+    {
+      name: "Trace",
+      hint: "Follow the path that runs through the key area.",
+      points: [
+        { id: "A", x: 40, y: 40 },
+        { id: "B", x: 40, y: 360 },
+        { id: "C", x: 360, y: 200 },
+        { id: "D", x: 200, y: 80 },
+        { id: "E", x: 200, y: 320 },
+        { id: "F", x: 200, y: 240 },
+        { id: "G", x: 200, y: 160 },
+        { id: "H", x: 120, y: 200 },
+      ],
+      edges: [
+        { from: "A", to: "B" },
+        { from: "A", to: "G" },
+        { from: "B", to: "F" },
+        { from: "C", to: "D" },
+        { from: "C", to: "E" },
+        { from: "D", to: "G" },
+        { from: "F", to: "G" },
+        { from: "F", to: "E" },
+        { from: "H", to: "F" },
+        { from: "H", to: "G" },
+      ],
+    },
+    {
+      name: "Cycle",
+      hint: "Let the outline reveal the starting point.",
+      points: [
+        { id: "A", x: 50, y: 50 },
+        { id: "B", x: 350, y: 50 },
+        { id: "C", x: 350, y: 350 },
+        { id: "D", x: 50, y: 350 },
+        { id: "E", x: 200, y: 240 },
+      ],
+      edges: [
+        { from: "A", to: "B" },
+        { from: "B", to: "C" },
+        { from: "C", to: "D" },
+        { from: "C", to: "E" },
+        { from: "C", to: "A" },
+        { from: "D", to: "A" },
+        { from: "D", to: "B" },
+        { from: "D", to: "E" },
+        { from: "E", to: "B" },
+        { from: "E", to: "A" },
+      ],
+    },
   ],
-}
+};
