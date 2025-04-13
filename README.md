@@ -2,6 +2,8 @@
 
 **Game Portal Web** es una plataforma de minijuegos desarrollada con **React**, **Next.js**, **Tailwind CSS** y **TypeScript**. Permite jugar a distintos minijuegos directamente desde el navegador sin necesidad de instalación.
 
+🌐 **Sitio en línea**: [https://gameportalweb.vercel.app](https://gameportalweb.vercel.app)
+
 ## 🚀 Características
 
 - 🎲 Varios minijuegos incluidos:
@@ -13,14 +15,10 @@
   - 🧱 **Block Placing**
   - 🐦 **Flappy Bird**
   - 🎯 **One Line**
-- 🎨 Diseño responsivo con **Tailwind CSS**.
+- 🎨 Diseño responsivo con **Tailwind CSS** (próximamente).
 - 🌙 Modo claro/oscuro (próximamente).
 - ⚡ Rápido y ligero gracias a **Next.js** y optimizaciones de rendimiento.
 - 🔗 Código modular y reutilizable.
-
-## 📸 Capturas de Pantalla
-
-![Game Portal](/public/dashboard.png)
 
 ## 🛠️ Tecnologías Usadas
 
@@ -29,7 +27,6 @@
 - [TypeScript](https://www.typescriptlang.org/) - Superset de JavaScript para código tipado.
 - [Tailwind CSS](https://tailwindcss.com/) - Framework de CSS utility-first.
 - [ESLint](https://eslint.org/) - Herramienta para garantizar código limpio y consistente.
-
 
 ## 📦 Instalación y Uso
 
@@ -83,7 +80,20 @@ Para contribuir, haz un **fork** del repositorio, crea una nueva rama y envía u
 
 ## 📜 Licencia
 
-Este proyecto está bajo la licencia **MIT**. Consulta el archivo [LICENSE](./LICENSE) para más detalles.
+Este proyecto está bajo la licencia **MIT**, con condiciones adicionales de uso.
+
+Puedes usar, modificar y distribuir este código siempre que:
+
+- Des crédito al autor (**Michael / MikeDevQh**).
+- Notifiques si lo usas públicamente o lo incluyes en otro proyecto.
+
+Consulta el archivo [LICENSE](./LICENSE) para ver los términos completos.
+
+## 📩 Contacto del Autor
+
+**Michael (MikeDevQh)**  
+📧 michaelqhdez@gmail.com  
+🔗 [https://github.com/MikeDevQH](https://github.com/MikeDevQH)
 
 ---
 
