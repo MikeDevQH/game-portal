@@ -18,9 +18,9 @@ export default function Header() {
           className="flex items-center gap-2 text-blue-300 hover:text-blue-100 transition-all duration-300"
         >
           <motion.div whileHover={{ rotate: 360 }} transition={{ duration: 0.5 }}>
-            <Home className="h-5 w-5" />
+            <img src="/logo.png" alt="Game Portal Logo" className="h-8 w-8 scale-125" />
           </motion.div>
-          <span className="font-medium tracking-wider">GAME PORTAL</span>
+          <span className="font-bold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-300 to-blue-500">GAME PORTAL</span>
         </Link>
         <motion.a
           href="https://github.com/MikeDevQH"
